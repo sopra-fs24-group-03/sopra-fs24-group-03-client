@@ -19,7 +19,6 @@ const FormField = (props) => {
       <label className="login label">{props.label}</label>
       <input
         className="login input"
-        placeholder="enter here.."
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
       />
@@ -35,22 +34,20 @@ FormField.propTypes = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState<string>(null); //change to check if user exists
   const [username, setUsername] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null); //change to check if user exists
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({ username, name });
-      const response = await api.post("/users", requestBody);
-
+      const requestBody = JSON.stringify({ username, password });
+      const response = await api.put("/users/login", requestBody); //api call doesnt work as planned
+      //alert(response)
       // Get the returned user and update a new object.
-      const user = new User(response.data);
-
+      const user = new User(response.data); //create a new user object for logged in user
+      
       // Store the token into the local storage.
-      localStorage.setItem("token", user.token);
+      localStorage.setItem("token", user.token); 
 
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      navigate("/game");
     } catch (error) {
       alert(
         `Something went wrong during the login: \n${handleError(error)}`
