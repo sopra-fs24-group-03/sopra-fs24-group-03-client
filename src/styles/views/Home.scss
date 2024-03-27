@@ -1,0 +1,69 @@
+@import "../theme";
+
+/* The '&' is a shorthand for the containing element,
+  so for example a '&.user-list' inside .game will compile to
+  .game.user-list
+
+  for more information visit https://sass-lang.com/guide
+ */
+
+.game {
+  &.container {
+    background: $background;
+    padding: 1.5em;
+    border-radius: $borderRadius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: $dropShadow;
+  }
+  &.user-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  &.user-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  & p,h2 {
+    margin: 0.5em 0;
+  }
+}
+
+.edit-button{
+  width: 15%;
+}
+
+
+.profil {
+  &.container {
+    margin: 0.5em 0;
+    width: 20em;
+    padding: 10px;
+    border-radius: $borderRadius;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+  }
+  .data{
+  display: flex;
+  justify-content: space-between;
+  }
+  .label {
+    color: black;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+    .value {
+      color: black;
+    }
+    .value username {
+      padding-left: 10px;
+    }
+
+    /* Apply the same styles to all data */
+    /* Add any other common styles you want */
+  }

@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import "styles/views/Login.scss";
+import "styles/views/Home.scss";
 import { User } from "types";
 
 

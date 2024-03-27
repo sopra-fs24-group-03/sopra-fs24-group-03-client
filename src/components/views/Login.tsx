@@ -47,6 +47,8 @@ const Login = () => {
       
       // Store the token into the local storage.
       localStorage.setItem("token", user.token); 
+
+      // Login successfully worked --> navigate to the route /home in the GameRouter
       navigate(`/home/${user.id}`);
 
     } catch (error) {
