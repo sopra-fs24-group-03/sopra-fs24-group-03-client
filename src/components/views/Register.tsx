@@ -37,7 +37,27 @@ const Register = () => {
   const [username, setUsername] = useState<string>(null);
   const [password, setPassword] = useState<string>(null); //function not implemented yet
 
-  
+  const doRegister = async () => {
+    try {
+      const requestBody = JSON.stringify({ username, password });
+      const response = await api.post("/users", requestBody); //api call to the UserController @PostMapping("/users")
+
+      // Get the returned user and update a new object.
+      const user = new User(response.data);
+      //alert(user)
+
+      // Store the token into the local storage.
+      localStorage.setItem("token", user.token);
+
+
+      // Login successfully worked --> navigate to the route /game in the GameRouter
+      navigate("/game");
+    } catch (error) {
+      alert(
+        `Something went wrong during the register: \n${handleError(error)}`
+      );
+    }
+  };
 
   return (
     <BaseContainer>
