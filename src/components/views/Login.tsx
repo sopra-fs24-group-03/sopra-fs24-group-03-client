@@ -35,7 +35,7 @@ FormField.propTypes = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null); //change to check if user exists
   const [username, setUsername] = useState<string>(null);
 
   const doLogin = async () => {
@@ -62,25 +62,35 @@ const Login = () => {
     <BaseContainer>
       <div className="login container">
         <div className="login form">
+          <h2>Login</h2>
+          
           <FormField
             label="Username"
             value={username}
             onChange={(un: string) => setUsername(un)}
           />
           <FormField
-            label="Name"
-            value={name}
-            onChange={(n) => setName(n)}
+            label="Password"
+            value={password}
+            onChange={(p) => setPassword(p)}
           />
-          <div className="login button-container">
+          
+          <div className="login button-container" >
             <Button
-              disabled={!username || !name}
-              width="100%"
+              disabled={!username || !password}
+              width="45%"
               onClick={() => doLogin()}
             >
               Login
             </Button>
+            <Button
+              width="45%"
+              onClick= {() => navigate("/register")}
+            >
+              Register
+            </Button>
           </div>
+            
         </div>
       </div>
     </BaseContainer>
