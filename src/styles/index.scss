@@ -10,7 +10,10 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   font-family: $fontDefault;
-  background-image: linear-gradient(135deg, $accent 10%, $accentDark 100%);
+  background-image: url('https://static.vecteezy.com/system/resources/previews/024/232/274/original/green-casino-poker-table-texture-game-background-free-vector.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 input,

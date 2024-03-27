@@ -1,5 +1,8 @@
 @import "../theme";
 
+h2{
+  text-align: center;
+}
 .login {
   &.container {
     margin-top: 2em;
@@ -14,7 +17,23 @@
     justify-content: center;
     width: 60%;
     max-width: 30em;
-    height: 20em;
+    height: 22em;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 37px;
+    padding-right: 37px;
+    border-radius: 0.75em;
+    background-color: $background;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: $dropShadow;
+  }
+  &.register{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+    max-width: 30em;
+    height: 22em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
@@ -36,8 +55,8 @@
     border: none;
     border-radius: 0.75em;
     margin-bottom: 20px;
-    background: transparentize(white, 0.85);
-    color: $textColor;
+    background: white;
+    color: black;
   }
   &.label {
     color: $textColor;
@@ -47,7 +66,14 @@
   }
   &.button-container {
     display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+    
+  }
+  &.button-container-single {
+    display: flex;
     justify-content: center;
     margin-top: 2em;
+    
   }
 }
