@@ -51,7 +51,7 @@ const Register = () => {
 
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
-      navigate("/game");
+      navigate(`/home/${user.id}`);
     } catch (error) {
       alert(
         `Something went wrong during the register: \n${handleError(error)}`
