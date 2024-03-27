@@ -6,6 +6,13 @@ export const api = axios.create({
   headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
 });
 
+api.interceptors.request.use(config => {
+  config.headers.token = localStorage.getItem("token");
+  
+  return config;
+});
+
+
 export const handleError = error => {
   const response = error.response;
 
