@@ -4,7 +4,7 @@ import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
 import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import "styles/views/User.scss";
+import "styles/views/Home.scss";
 import { User } from "types";
   
 
@@ -40,21 +40,37 @@ const Userdisplay = () => {
 
   let editbutton = (<Button width="100%"  onClick={() => navigate(`/edit/${userid}`)}>  Edit</Button>)
 
+  //Credits: {user.credits} Reloads: {user.reloads}
   if (user) {
     content =  (
-      <div className="user">
-        <div className="user item">Username: {user.username}</div>
-        <div className="user item">Birthday: {user.birthday}</div>
-        <div className="user item">Status: {user.status}</div>
-        <div className="user item">Creation Date: {user.date}</div>
-        <div className="user button-container">
-          <Button
-            width="100%"
-            onClick={() => navigate("/game")}
-          >
-            Return
-          </Button>
-          {(localStorage.getItem("id") === userid) && editbutton}
+      <div className="homescreen">
+        <div className="user container">
+          <h2>Profile</h2>
+          <div className="user item">
+            <div className="label">Username</div> 
+            <div className="value">{user.username}</div>
+          </div>
+          <div className="user item">
+            <div className="label">Credits</div> 
+            <div className="value">10&apos;000</div>
+          </div>
+          <div className="user item">
+            <div className="label">Reloads</div> 
+            <div className="value">0</div>
+          </div>
+        </div>
+        <div className="user container">
+          <div className="user options">
+            <div className="user actions">
+              <h2>Play Poker</h2>
+              <Button className="button">Create Table</Button>
+              </div>
+            <div className="user actions">
+              <h2>Enter Custom Table</h2>
+              <input className="user input" type="text" placeholder="Insert table number"/>
+              <Button className="button">Join Table</Button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -62,8 +78,7 @@ const Userdisplay = () => {
 
   
   return (
-    <BaseContainer className="user container">
-      <h2>User Overview:</h2>
+    <BaseContainer>
       {content}
     </BaseContainer>
   );
