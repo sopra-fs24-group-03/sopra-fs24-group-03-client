@@ -6,7 +6,7 @@ import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Home from "../../views/Home";
-import Lobby from "../../views/Lobby";
+
 
 /**
  * Main router of your application.
