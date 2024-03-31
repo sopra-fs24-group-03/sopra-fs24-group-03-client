@@ -14,6 +14,19 @@ const Userdisplay = () => {
   const [user, setUser] = useState<User>(null);
   const { userid } = useParams();
   const [lobbyId, setLobbyId] = useState("");
+  async function createTable() {
+    try {
+      const response = await api.post(`/lobbies/${userid}`);
+      localStorage.setItem("lobbyId", response.lobbyId);
+      navigate(`/game`)
+    }
+    catch (error) {
+      alert(
+        `Something went wrong while creating the lobby: \n${handleError(error)}`
+      );
+    }
+  }
+
   async function joinLobby() {
     try {
       const response = await api.put(`/lobbies/${lobbyId}/add/${userid}`);
@@ -78,7 +91,7 @@ const Userdisplay = () => {
           <div className="user options">
             <div className="user actions">
               <h2>Play Poker</h2>
-              <Button className="button">Create Table</Button>
+              <Button width="100%"  onClick={() => createTable()}>Create Table</Button>
               </div>
             <div className="user actions">
               <h2>Enter Custom Table</h2>
