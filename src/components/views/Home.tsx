@@ -13,7 +13,22 @@ const Userdisplay = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>(null);
   const { userid } = useParams();
+  const [lobbyId, setLobbyId] = useState("");
+  async function joinLobby() {
+    try {
+      const response = await api.put(`/lobbies/${lobbyId}/add/${userid}`);
+      localStorage.setItem("lobbyId", lobbyId);
+      navigate(`/game`);
+    }
+    catch (error) {
+      alert(
+          `Something went wrong while joining the lobby: \n${handleError(error)}`
+      );
+    }
 
+
+
+  }
   useEffect(() => {
     async function fetchData() {
       try{
@@ -67,8 +82,10 @@ const Userdisplay = () => {
               </div>
             <div className="user actions">
               <h2>Enter Custom Table</h2>
-              <input className="user input" type="text" placeholder="Insert table number"/>
-              <Button className="button">Join Table</Button>
+              <input className="user input" type="text" placeholder="Insert table number"
+                     value={lobbyId}
+                     onChange={(e) => setLobbyId(e.target.value)} />
+              <Button className="button" onClick={() => joinLobby()}>Join Table</Button>
             </div>
           </div>
         </div>

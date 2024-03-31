@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
@@ -30,11 +30,20 @@ const Game = () => {
   // a component can have as many state variables as you like.
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
-
-  const logout = (): void => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  const { userid } = useParams();
+  const [lobbyId, setLobbyId] = useState("");
+  async function leaveLobby() {
+    try {
+      const response = await api.delete(`/lobbies/${lobbyId}/remove/${userid}`);
+      localStorage.removeItem("lobbyId");
+      navigate(`/home/${userid}`);
+    }
+    catch (error) {
+      alert(
+          `Something went wrong while leaving the lobby: \n${handleError(error)}`
+      );
+    }
+  }
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -91,9 +100,7 @@ const Game = () => {
             </li>
           ))}
         </ul>
-        <Button width="100%" onClick={() => logout()}>
-          Logout
-        </Button>
+        <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
       </div>
     );
   }
