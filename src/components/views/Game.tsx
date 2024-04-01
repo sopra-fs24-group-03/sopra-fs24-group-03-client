@@ -8,11 +8,24 @@ import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import { User } from "types";
 
-const Player = ({ user }: { user: User }) => (
-  <div className="player container">
+const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number}) => {
+  const { userid } = useParams();
+  async function remove(userToDeleteId) {
+    try {
+      const response = await api.delete(`lobbies/${lobbyId}/remove${userToDeleteId}`, {headers: {token:localStorage.getItem("token")}});
+    }
+    catch (error) {
+      alert(
+        `Something went wrong while deleting the User: \n${handleError(error)}`
+      );
+    }
+  }
+  return (<div className="player container">
     <div className="player usernameMoney">{user.username}: {user.money}</div>
-  </div>
-);
+    <button disabled={userid !== ownerId.toString()} className="player remove" onClick={() => remove(user.id)}>X</button>
+  </div>);
+
+};
 
 Player.propTypes = {
   user: PropTypes.object,
@@ -45,8 +58,10 @@ const Game = () => {
   }
 
   async function startGame() {
-    
+
   }
+
+
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -97,7 +112,7 @@ const Game = () => {
           </div>
           {users.map((user: User) => (
             <li key={user.id}>
-              <Player user={user} />
+              <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
             </li>
           ))}
         </ul>
