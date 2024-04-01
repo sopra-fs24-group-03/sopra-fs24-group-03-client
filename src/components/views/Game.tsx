@@ -44,6 +44,10 @@ const Game = () => {
     }
   }
 
+  async function startGame() {
+    
+  }
+
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
   // this can be achieved by leaving the second argument an empty array.
@@ -98,6 +102,7 @@ const Game = () => {
           ))}
         </ul>
         <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
+        <Button disabled={userid !== owner.id.toString()} className="button" onClick={() => startGame()}>Start Game</Button>
       </div>
     );
   }

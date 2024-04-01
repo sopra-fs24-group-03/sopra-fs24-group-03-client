@@ -18,7 +18,7 @@ const Userdisplay = () => {
     try {
       const response = await api.post(`/lobbies/${userid}`);
       localStorage.setItem("lobbyId", response.lobbyId);
-      navigate(`/game`)
+      navigate(`/game/${userid}`)
     }
     catch (error) {
       alert(
