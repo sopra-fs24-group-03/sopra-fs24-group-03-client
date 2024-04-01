@@ -30,6 +30,7 @@ const Game = () => {
   const [users, setUsers] = useState<User[]>(null);
   const { userid } = useParams();
   const [lobbyId, setLobbyId] = useState("");
+  const [owner, setOwner] = useState<User>(null);
   async function leaveLobby() {
     try {
       const response = await api.delete(`/lobbies/${lobbyId}/remove/${userid}`);
@@ -59,7 +60,9 @@ const Game = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // Get the returned users and update the state.
+        console.log(response.data)
         setUsers(response.data);
+        setOwner(response.data[0]); // need to be changed to response.owner
 
         // See here to get more data.
         console.log(response);
@@ -85,6 +88,9 @@ const Game = () => {
     content = (
       <div className="game">
         <ul className="game user-list">
+          <div className="player container">
+            <div className="player owner">{owner.username}: {owner.money}</div>
+          </div>
           {users.map((user: User) => (
             <li key={user.id}>
               <Player user={user} />

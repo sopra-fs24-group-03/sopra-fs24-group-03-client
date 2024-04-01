@@ -61,4 +61,10 @@
     font-family: $fontMono;
     font-weight: 500;
   }
+  &.owner {
+    margin-right: 10px;
+    font-family: $fontMono;
+    font-weight: 500;
+    color:yellow;
+  }
 }
