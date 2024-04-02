@@ -16,8 +16,8 @@ const Userdisplay = () => {
   const [lobbyId, setLobbyId] = useState("");
   async function createTable() {
     try {
-      const response = await api.post(`/lobbies/${userid}`);
-      localStorage.setItem("lobbyId", response.lobbyId);
+      const response = await api.post(`/lobbies`);
+      localStorage.setItem("lobbyId", response.data.id);
       navigate(`/game/${userid}`)
     }
     catch (error) {
