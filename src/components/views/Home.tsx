@@ -29,9 +29,10 @@ const Userdisplay = () => {
 
   async function joinLobby() {
     try {
-      const response = await api.put(`/lobbies/${lobbyId}/add/${userid}`);
+      console.log(lobbyId)
+      const response = await api.put(`/lobbies/${lobbyId}`);
       localStorage.setItem("lobbyId", lobbyId);
-      navigate(`/game`);
+      navigate(`/game/${userid}`);
     }
     catch (error) {
       alert(

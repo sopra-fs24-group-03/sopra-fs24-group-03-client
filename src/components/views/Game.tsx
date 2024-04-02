@@ -12,7 +12,7 @@ const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; owner
   const { userid } = useParams();
   async function remove(userToDeleteId) {
     try {
-      const response = await api.delete(`lobbies/${lobbyId}/remove${userToDeleteId}`, {headers: {token:localStorage.getItem("token")}});
+      const response = await api.delete(`lobbies/${lobbyId}/remove${userToDeleteId}`);
     }
     catch (error) {
       alert(
@@ -46,7 +46,7 @@ const Game = () => {
   const [owner, setOwner] = useState<User>(null);
   async function leaveLobby() {
     try {
-      const response = await api.delete(`/lobbies/${lobbyId}/remove/${userid}`);
+      const response = await api.delete(`/lobbies`);
       localStorage.removeItem("lobbyId");
       navigate(`/home/${userid}`);
     }
