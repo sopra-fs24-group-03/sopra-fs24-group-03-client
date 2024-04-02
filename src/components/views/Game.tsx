@@ -71,7 +71,7 @@ const Game = () => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        const response = await api.get(`/users`); // lobbies/${localStorage.get("lobbyId")
+        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`); // lobbies/${localStorage.get("lobbyId")
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -80,8 +80,8 @@ const Game = () => {
 
         // Get the returned users and update the state.
         console.log(response.data)
-        setUsers(response.data);
-        setOwner(response.data[0]); // need to be changed to response.owner
+        setUsers(response.data.lobbyUsernames);
+        setOwner(response.data.lobbyLeaderUsername); // need to be changed to response.owner
 
         // See here to get more data.
         console.log(response);
