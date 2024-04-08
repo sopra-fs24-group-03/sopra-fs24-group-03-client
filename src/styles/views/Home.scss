@@ -6,7 +6,9 @@
 
   for more information visit https://sass-lang.com/guide
  */
-
+h1{
+  margin-bottom: 0;
+}
 .homescreen{
   display: flex;
   flex-direction: row;
@@ -24,7 +26,22 @@
   color: white;
 }
 
+.edit {
+  font-size: larger;
+  border-radius: $borderRadius;
+  margin-top: 5px; /* Add spacing between label and value */
+  cursor: pointer; /* Make the cursor indicate it's clickable */
+  height: 43px;
+}
+
+
 .user {
+
+  .data{
+    display: flex;
+    justify-content: space-between;
+    width: 320px;
+    }
   .label {
     font-weight: bold;
     color: white;
@@ -35,7 +52,7 @@
   }
 
   .input {
-    width: 200px;
+    width: 15em;
     padding: 10px;
     border-radius: $borderRadius;
     background: lightgray;
@@ -73,8 +90,9 @@
     width: 20em;
     padding: 10px;
     border-radius: $borderRadius;
-    background: lightgray;
+    background: rgb(89, 120, 89);
     margin-top: 5px; /* Add spacing between label and value */
+    height: 43px;
   }
   &.container {
     background: $background;
@@ -84,7 +102,7 @@
     flex-direction: column;
     align-items: center;    
     max-width: 500px;
-    height: 35em;
+    height: 37em;
     flex: 1;
   }
   
@@ -101,4 +119,3 @@
 
   
 }
-

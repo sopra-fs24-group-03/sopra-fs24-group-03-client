@@ -84,6 +84,7 @@ const Register = () => {
               Back
             </Button>
             <Button
+              disabled={!username || !password}
               width="45%"
               onClick={() => doRegister()}
             >

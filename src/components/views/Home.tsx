@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
@@ -6,7 +7,30 @@ import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Home.scss";
 import { User } from "types";
-  
+import PropTypes from "prop-types";
+
+
+const FormField = (props) => {
+  return (
+    <div className="login field">
+      <label className="login label">{props.label}</label>
+      <input
+        
+        className="login input"
+        placeholder="enter here.."
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+      />
+    </div>
+  );
+};
+
+FormField.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
 
 const Userdisplay = () => {
     
@@ -14,11 +38,46 @@ const Userdisplay = () => {
   const [user, setUser] = useState<User>(null);
   const { userid } = useParams();
   const [lobbyId, setLobbyId] = useState("");
+  const [username, setNewUsername] = useState<string>(null);
+  const [editingUsername, setEditingUsername] = useState(false);
+  const token = localStorage.getItem("token");
+
+
+  const editUser = async () => {
+    try {
+      const requestBody = JSON.stringify({username});
+      const response = await api.put(`/users/${userid}`, requestBody);
+      
+      //reload the page
+      window.location.reload();
+      
+    } catch (error) {
+      alert(
+        `Something went wrong during the username edit: \n${handleError(error)}`
+      );
+    }
+  };
+
+  const logout = async () => {
+    try {
+      //const requestBody = JSON.stringify({username, birthDate});
+      const response = await api.put("/users/logout");
+      
+    } catch (error) {
+      alert(
+        "Something went wrong while Logout! See the console for details."
+      );
+    }
+    localStorage.clear();
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   async function createTable() {
     try {
-      const response = await api.post(`/lobbies`);
-      localStorage.setItem("lobbyId", response.data.id);
-      navigate(`/game/${userid}`)
+      const response = await api.post(`/lobbies/${userid}`);
+      localStorage.setItem("lobbyId", response.lobbyId);
+      navigate(`/game`)
     }
     catch (error) {
       alert(
@@ -29,10 +88,9 @@ const Userdisplay = () => {
 
   async function joinLobby() {
     try {
-      console.log(lobbyId)
-      const response = await api.put(`/lobbies/${lobbyId}`);
+      const response = await api.put(`/lobbies/${lobbyId}/add/${userid}`);
       localStorage.setItem("lobbyId", lobbyId);
-      navigate(`/game/${userid}`);
+      navigate(`/game`);
     }
     catch (error) {
       alert(
@@ -45,6 +103,7 @@ const Userdisplay = () => {
   }
   useEffect(() => {
     async function fetchData() {
+      //alert(permit)
       try{
         const response = await api.get(`/users/${userid}`); 
         setUser(response.data);
@@ -64,20 +123,41 @@ const Userdisplay = () => {
     }
     fetchData();
   }, [userid]);
+
+ 
+  const handleEditClick = () => {
+    // Enable editing mode
+    setEditingUsername(true);
+  };
     
   let content = <Spinner />;
 
-  let editbutton = (<Button width="100%"  onClick={() => navigate(`/edit/${userid}`)}>  Edit</Button>)
+  //let editbutton = (<Button width="100%"  onClick={() => navigate(`/edit/${userid}`)}>  Edit</Button>)
 
   //Credits: {user.credits} Reloads: {user.reloads}
   if (user) {
     content =  (
       <div className="homescreen">
         <div className="user container">
-          <h2>Profile</h2>
+          <h1>Profile</h1>
           <div className="user item">
-            <div className="label">Username</div> 
-            <div className="value">{user.username}</div>
+            <div className="label">Username: </div>
+              <div className="data">
+                {editingUsername ? (
+                  <input className="input" width="50%" type="text" placeholder="Set new name"
+                    value={username}
+                    onChange={(e) => setNewUsername(e.target.value)}
+                    />
+                ) : (
+                  <div className="value">{user.username}</div>
+                )}
+              
+              {(
+                <Button className="edit" onClick={editingUsername ? editUser : handleEditClick}>
+                  {editingUsername ? "Save" : "Edit"}
+                </Button>
+              )}
+            </div>
           </div>
           <div className="user item">
             <div className="label">Credits</div> 
@@ -87,12 +167,13 @@ const Userdisplay = () => {
             <div className="label">Reloads</div> 
             <div className="value">0</div>
           </div>
+          <Button className="button" width="35%"  onClick={() => logout()}>Quit</Button>
         </div>
         <div className="user container">
           <div className="user options">
             <div className="user actions">
               <h2>Play Poker</h2>
-              <Button width="100%"  onClick={() => createTable()}>Create Table</Button>
+              <Button className="button"  onClick={() => createTable()}>Create Table</Button>
               </div>
             <div className="user actions">
               <h2>Enter Custom Table</h2>
