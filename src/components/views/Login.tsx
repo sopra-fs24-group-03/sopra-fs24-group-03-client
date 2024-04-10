@@ -87,7 +87,7 @@ const Login = () => {
               width="45%"
               onClick= {() => navigate("/register")}
             >
-              Register
+              Go Register
             </Button>
           </div>
             

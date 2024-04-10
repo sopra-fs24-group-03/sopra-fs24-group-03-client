@@ -163,7 +163,7 @@ const Userdisplay = () => {
           </div>
           <div className="user item">
             <div className="label">Credits</div> 
-            <div className="value">10&apos;000</div>
+            <div className="value">{user.money}</div>
           </div>
           <div className="user item">
             <div className="label">Reloads</div> 
