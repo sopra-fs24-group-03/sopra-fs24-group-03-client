@@ -80,8 +80,8 @@ const Game = () => {
 
         // Get the returned users and update the state.
         console.log(response.data)
-        setUsers(response.data.lobbyUsernames);
-        setOwner(response.data.lobbyLeaderUsername); // need to be changed to response.owner
+        setUsers(response.data.lobbyUsers);
+        setOwner(response.data.lobbyLeader); // need to be changed to response.owner
 
         // See here to get more data.
         console.log(response);
