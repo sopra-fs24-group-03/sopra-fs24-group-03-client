@@ -77,8 +77,9 @@ const Userdisplay = () => {
     try {
 
       const response = await api.post(`/lobbies`);
-      localStorage.setItem("lobbyId", response.id); //TODO adjust game and save id 
-      navigate(`/game`)
+      console.log(response);
+      localStorage.setItem("lobbyId", response.data.id); //TODO adjust game and save id
+      navigate(`/game/${userid}`);
     }
     catch (error) {
       alert(
@@ -91,7 +92,7 @@ const Userdisplay = () => {
     try {
       const response = await api.put(`/lobbies/${lobbyId}`);
       localStorage.setItem("lobbyId", lobbyId);
-      navigate(`/game`);
+      navigate(`/game/${userid}`);
     }
     catch (error) {
       alert(
