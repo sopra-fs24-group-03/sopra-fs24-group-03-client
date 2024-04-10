@@ -75,8 +75,9 @@ const Userdisplay = () => {
 
   async function createTable() {
     try {
-      const response = await api.post(`/lobbies/${userid}`);
-      localStorage.setItem("lobbyId", response.lobbyId);
+
+      const response = await api.post(`/lobbies`);
+      localStorage.setItem("lobbyId", response.id); //TODO adjust game and save id 
       navigate(`/game`)
     }
     catch (error) {
@@ -88,7 +89,7 @@ const Userdisplay = () => {
 
   async function joinLobby() {
     try {
-      const response = await api.put(`/lobbies/${lobbyId}/add/${userid}`);
+      const response = await api.put(`/lobbies/${lobbyId}`);
       localStorage.setItem("lobbyId", lobbyId);
       navigate(`/game`);
     }
