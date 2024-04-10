@@ -76,7 +76,7 @@ const Userdisplay = () => {
   async function createTable() {
     try {
 
-      const response = await api.post(`/lobbies`);
+      const response = await api.post("/lobbies");
       console.log(response);
       localStorage.setItem("lobbyId", response.data.id); //TODO adjust game and save id
       navigate(`/game/${userid}`);
@@ -96,11 +96,9 @@ const Userdisplay = () => {
     }
     catch (error) {
       alert(
-          `Something went wrong while joining the lobby: \n${handleError(error)}`
+        `Something went wrong while joining the lobby: \n${handleError(error)}`
       );
     }
-
-
 
   }
   useEffect(() => {
@@ -111,6 +109,7 @@ const Userdisplay = () => {
         setUser(response.data);
       }
       catch (error){
+        localStorage.clear();
         alert(
           `Something went wrong while fetching user: \n${handleError(error)}`
         );
@@ -144,15 +143,15 @@ const Userdisplay = () => {
           <h1>Profile</h1>
           <div className="user item">
             <div className="label">Username: </div>
-              <div className="data">
-                {editingUsername ? (
-                  <input className="input" width="50%" type="text" placeholder="Set new name"
-                    value={username}
-                    onChange={(e) => setNewUsername(e.target.value)}
-                    />
-                ) : (
-                  <div className="value">{user.username}</div>
-                )}
+            <div className="data">
+              {editingUsername ? (
+                <input className="input" width="50%" type="text" placeholder="Set new name"
+                  value={username}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                />
+              ) : (
+                <div className="value">{user.username}</div>
+              )}
               
               {(
                 <Button className="edit" onClick={editingUsername ? editUser : handleEditClick}>
@@ -176,12 +175,12 @@ const Userdisplay = () => {
             <div className="user actions">
               <h2>Play Poker</h2>
               <Button className="button"  onClick={() => createTable()}>Create Table</Button>
-              </div>
+            </div>
             <div className="user actions">
               <h2>Enter Custom Table</h2>
               <input className="user input" type="text" placeholder="Insert table number"
-                     value={lobbyId}
-                     onChange={(e) => setLobbyId(e.target.value)} />
+                value={lobbyId}
+                onChange={(e) => setLobbyId(e.target.value)} />
               <Button className="button" onClick={() => joinLobby()}>Join Table</Button>
             </div>
           </div>

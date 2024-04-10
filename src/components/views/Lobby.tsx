@@ -31,7 +31,7 @@ Player.propTypes = {
   user: PropTypes.object,
 };
 
-const Game = () => {
+const Lobby = () => {
   // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate 
   const navigate = useNavigate();
 
@@ -86,6 +86,7 @@ const Game = () => {
         // See here to get more data.
         console.log(response);
       } catch (error) {
+        localStorage.clear();
         console.error(
           `Something went wrong while fetching the users: \n${handleError(
             error
@@ -130,4 +131,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default Lobby;
