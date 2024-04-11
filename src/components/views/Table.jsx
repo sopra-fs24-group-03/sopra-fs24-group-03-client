@@ -60,8 +60,8 @@ const Table = () => {
 
   let playerCards = (
     <>
-      <img height="115%" src="https://deckofcardsapi.com/static/img/5S.png" alt="Card 1" />
-      <img height="115%" src="https://deckofcardsapi.com/static/img/6H.png" alt="Card 2" />
+      <img src="https://deckofcardsapi.com/static/img/5S.png" alt="Card 1" />
+      <img src="https://deckofcardsapi.com/static/img/6H.png" alt="Card 2" />
     </>
   );
 
@@ -84,7 +84,9 @@ const Table = () => {
         </div>
       </div>
       <div className="table-player">
-        <h1>Credits: 1000</h1> 
+        <div className="table-player money">
+          <h1>1000</h1>   
+        </div>
 
         <div className="table-player cards">
           {playerCards}
