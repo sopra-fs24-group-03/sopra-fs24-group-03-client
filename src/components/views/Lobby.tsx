@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import "styles/views/Game.scss";
+import "styles/views/Lobby.scss";
 import { User } from "types";
 
 const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number}) => {
@@ -58,7 +58,7 @@ const Lobby = () => {
   }
 
   async function startGame() {
-
+    navigate("/table");
   }
 
 

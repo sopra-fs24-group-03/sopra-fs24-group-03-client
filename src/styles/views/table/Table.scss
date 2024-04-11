@@ -1,0 +1,96 @@
+
+
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Makes the table image cover the entire viewport width */
+  height: 100%; /* Makes the table image cover the entire viewport height */
+  z-index: -1; /* Puts the table image behind other elements */
+  opacity: 1; /* Adjust the opacity as needed */
+}
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 70vh;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; // Changed to flex-start to keep items at the top
+  align-items: center;
+  
+  &.cards-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  &.card{
+    height: 135px;
+  }
+
+  &.pot{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+  }
+}
+
+.table-player {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  height:280px;
+  
+
+  h1 {
+    margin-bottom: 15px;
+  }
+  &.cards{
+      flex-direction: row;
+      max-height: 100px;
+      margin-bottom: 80px;   
+  }
+   
+    .cards img:first-child {
+      max-height: 150px; /* Adjust as needed */
+      margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
+      transform: rotate(-5deg); /* Rotate the cards slightly */
+      margin-left: 0; /* Remove left margin from the first card */
+    }
+    
+    .cards img:last-child {
+      max-height: 150px; /* Adjust as needed */
+      margin: 0 -20px; /* Adjust the negative margin to control the amount of overlap */
+      transform: rotate(5deg); /* Rotate the cards slightly */
+      margin-right: 0; /* Remove right margin from the last card */
+    }
+
+  &.actions {
+     height: 30px; 
+    flex-direction: row;
+     
+    
+  }
+
+  &.actions button {
+    margin: 0 5px; // Adjust the margin as needed
+    background-color: rgb(218, 208, 208);
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+  }
+
+  &.actions button:hover {
+    background-color: rgb(250, 247, 247);
+  }
+}

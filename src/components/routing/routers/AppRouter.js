@@ -7,6 +7,7 @@ import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Home from "../../views/Home";
 import Lobby from "../../views/Lobby";
+import Table from "../../views/table/Table";
 
 
 /**
@@ -37,6 +38,10 @@ const AppRouter = () => {
 
         <Route path="/home/:userid" element={<GameGuard />}>
           <Route path="/home/:userid" element={<Home/>} />
+        </Route>
+
+        <Route path="/table/" element={<GameGuard />}>
+          <Route path="/table/" element={<Table/>} />
         </Route>
 
         <Route path="/" element={
