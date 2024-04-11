@@ -7,7 +7,7 @@ import Login from "../../views/Login";
 import Register from "../../views/Register";
 import Home from "../../views/Home";
 import Lobby from "../../views/Lobby";
-import Table from "../../views/table/Table";
+import Table from "../../views/Table";
 
 
 /**
