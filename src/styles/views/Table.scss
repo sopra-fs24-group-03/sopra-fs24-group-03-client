@@ -15,8 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 70vh;
-}
+  margin-top: 12%;}
 
 .table {
   display: flex;
@@ -44,42 +43,40 @@
 
 .table-player {
   position: fixed;
-  bottom: 30px;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  height:280px;
+  height:30%;
   
 
-  h1 {
-    margin-bottom: 15px;
+  .money{
+    height: 30px;
+    top: 0%;
   }
-  &.cards{
-      flex-direction: row;
-      max-height: 100px;
-      margin-bottom: 80px;   
-  }
+  .cards{
+    display: flex;
+    flex-direction: row;
+    height: 40%;
+    bottom: 30%;
+    }
    
     .cards img:first-child {
-      max-height: 150px; /* Adjust as needed */
       margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
       transform: rotate(-5deg); /* Rotate the cards slightly */
       margin-left: 0; /* Remove left margin from the first card */
     }
     
     .cards img:last-child {
-      max-height: 150px; /* Adjust as needed */
       margin: 0 -20px; /* Adjust the negative margin to control the amount of overlap */
       transform: rotate(5deg); /* Rotate the cards slightly */
       margin-right: 0; /* Remove right margin from the last card */
     }
 
-  &.actions {
-     height: 30px; 
-    flex-direction: row;
-     
-    
+  .actions {
+     height: 12%; 
+      flex-direction: row; 
   }
 
   &.actions button {
