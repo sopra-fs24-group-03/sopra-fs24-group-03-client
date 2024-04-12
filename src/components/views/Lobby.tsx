@@ -65,7 +65,8 @@ const Lobby = () => {
   }
 
   async function startGame() {
-    
+    const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
+    // TODO something with the response
     navigate("/table");
   }
 
@@ -80,13 +81,12 @@ const Lobby = () => {
     const pollingCallback = () => {
     async function fetchData() {
       try {
-        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`); // lobbies/${localStorage.get("lobbyId")
-
+        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
+        if (response.data.game !== null){
+          startGame()
+        }
         
         await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Get the returned users and update the state.
-        console.log(response.data)
         
 
         setUsers(response.data.lobbyUsers);
