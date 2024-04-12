@@ -82,21 +82,21 @@ const Table = () => {
             {cardsToShow}
           </div>
         </div>
-      </div>
-      <div className="table-player">
-        <div className="table-player money">
-          <h1>1000</h1>   
-        </div>
+        <div className="table-player">
+          <div className="table-player money">
+            <h1>1000</h1>   
+          </div>
 
-        <div className="table-player cards">
-          {playerCards}
-        </div>
+          <div className="table-player cards">
+            {playerCards}
+          </div>
 
-        <div className="table-player actions">
-          <button>Fold</button>
-          <button>Call</button>
-          <button>Raise</button>  
-        </div>  
+          <div className="table-player actions">
+            <button>Fold</button>
+            <button>Call</button>
+            <button>Raise</button>  
+          </div>  
+        </div>
       </div>
         
     </div>
