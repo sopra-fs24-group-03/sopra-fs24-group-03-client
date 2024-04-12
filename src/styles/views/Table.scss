@@ -50,7 +50,8 @@
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  height:30%;
+  height: 30%;
+  justify-content: center;
   
 
   .money{
@@ -59,23 +60,30 @@
     color: white;
   }
   .cards{
-    transform: translateX(-50%);
     display: flex;
-    flex-direction: row;
+    justify-content: center; /* Horizontally center the cards */
+    align-items: center; /* Vertically center the cards */
     height: 40%;
-    bottom: 28%;
+    bottom: 35%;
     }
    
+    .cards img {
+      position: absolute; /* Make the cards positioned relative to the .cards container */
+    }
+    
     .cards img:first-child {
+      height: 125%;
       margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
-      transform: rotate(-5deg); /* Rotate the cards slightly */
-      margin-left: 0; /* Remove left margin from the first card */
+
+      left: 50%; /* Move the first card to the center horizontally */
+      transform: translateX(-50%) rotate(-5deg); /* Rotate the first card slightly and center it */
     }
     
     .cards img:last-child {
       margin: 0 -20px; /* Adjust the negative margin to control the amount of overlap */
-      transform: rotate(5deg); /* Rotate the cards slightly */
-      margin-right: 0; /* Remove right margin from the last card */
+      height: 125%;
+      right: 50%; /* Move the last card to the center horizontally */
+      transform: translateX(50%) rotate(5deg); /* Rotate the last card slightly and center it */
     }
 
   .actions {
