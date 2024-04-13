@@ -42,57 +42,69 @@
     color: white;
   }
 }
-
-.table-player {
-  position: fixed;
-  bottom: 5%;
-  left: 50%;
-  transform: translateX(-50%);
+.player-wrapper {
   display: flex;
   flex-direction: column;
-  height:30%;
-  
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 7%;
+}
 
-  .money{
-    height: 30px;
-    top: 0%;
+.table-player {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; // Changed to flex-start to keep items at the top
+  align-items: center;  
+
+  &.money{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     color: white;
+    margin-bottom: 5%;
   }
-  .cards{
-    transform: translateX(-50%);
+
+  &.hand{
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 12%;
+  }
+  .hand img:first-child {
+    margin: 0 -10px; /* Adjust the negative margin to control the amount of overlap */
+    left: 50%; /* Move the first card to the center horizontally */
+    transform: rotate(-5deg); /* Rotate the first card slightly and center it */
+  }
+  
+  .hand img:last-child {
+    margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
+    right: 50%; /* Move the last card to the center horizontally */
+    transform: rotate(5deg); /* Rotate the last card slightly and center it */
+  }
+
+  &.card{
+    height: 12vh;
+  }
+
+  &.actions{
     display: flex;
     flex-direction: row;
-    height: 40%;
-    bottom: 28%;
-    }
-   
-    .cards img:first-child {
-      margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
-      transform: rotate(-5deg); /* Rotate the cards slightly */
-      margin-left: 0; /* Remove left margin from the first card */
-    }
-    
-    .cards img:last-child {
-      margin: 0 -20px; /* Adjust the negative margin to control the amount of overlap */
-      transform: rotate(5deg); /* Rotate the cards slightly */
-      margin-right: 0; /* Remove right margin from the last card */
-    }
-
-  .actions {
-     height: 12%; 
-      flex-direction: row; 
+    justify-content: center;
+    gap: 10px;
   }
 
-  &.actions button {
-    margin: 0 5px; // Adjust the margin as needed
+  .actions button {
+    margin: 0 5px;
     background-color: rgb(218, 208, 208);
     border-radius: 5px;
     border: none;
-    font-weight: bold;
-    width: 35%;
+    font-weight: 750;
+    width: 35%; /* Adjust width */
+    height: 20%; /* Adjust height */
+    padding: 5px; /* Add padding to increase button size */
   }
-
-  &.actions button:hover {
+  
+  .actions button:hover {
     background-color: rgb(250, 247, 247);
   }
 }
