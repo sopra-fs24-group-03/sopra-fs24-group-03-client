@@ -48,7 +48,7 @@ const Lobby = () => {
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
   const { userid } = useParams();
-  const [lobbyId, setLobbyId] = useState("");
+  const lobbyId = localStorage.getItem("lobbyId");
   const [owner, setOwner] = useState<User>(null);
 
   async function leaveLobby() {
@@ -85,7 +85,6 @@ const Lobby = () => {
         if (response.data.game !== null){
           startGame()
         }
-        
         await new Promise((resolve) => setTimeout(resolve, 100));
         
 
@@ -110,7 +109,7 @@ const Lobby = () => {
 
     fetchData();
   };
-  
+
   const startPolling = () => {
     // pollingCallback(); // To immediately start fetching data
     // Polling every  second
@@ -142,11 +141,13 @@ const Lobby = () => {
           <div className="player container">
             <div className="player owner">{owner.username}: {owner.money}</div>
           </div>
-          {users.map((user: User) => (
+          {users
+            .filter((user: User) => user.id !== owner.id)
+            .map((user: User, index: number) => ((
             <li key={user.id}>
               <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
             </li>
-          ))}
+          )))}
         </ul>
         <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
         <Button disabled={userid !== owner.id.toString()} className="button" onClick={() => startGame()}>Start Game</Button>
@@ -156,7 +157,7 @@ const Lobby = () => {
 
   return (
     <BaseContainer className="game container">
-      <h2>Play Poker</h2>
+      <h2>Lobby ID: {lobbyId}</h2>
       {content}
     </BaseContainer>
   );
