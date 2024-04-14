@@ -65,10 +65,12 @@ const Lobby = () => {
   }
 
   async function startGame() {
-    //const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
+    const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
     // TODO something with the response
     navigate("/table");
   }
+
+
 
 
 
@@ -82,8 +84,9 @@ const Lobby = () => {
     async function fetchData() {
       try {
         const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
+        console.log(response)
         if (response.data.game !== null){
-          startGame()
+          navigate("/table")
         }
         await new Promise((resolve) => setTimeout(resolve, 100));
         
