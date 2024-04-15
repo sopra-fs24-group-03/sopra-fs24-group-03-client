@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
@@ -7,6 +7,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Lobby.scss";
 import { User } from "types";
+import { usePageVisibility } from 'helpers/usePageVisibility';
 
 const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number}) => {
   const { userid } = useParams();
@@ -32,6 +33,11 @@ Player.propTypes = {
 };
 
 const Lobby = () => {
+
+  const isPageVisible = usePageVisibility();
+  const timerIdRef = useRef(null);
+  const [isPollingEnabled, setIsPollingEnabled] = useState(true);
+
   // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate 
   const navigate = useNavigate();
 
@@ -42,8 +48,9 @@ const Lobby = () => {
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
   const { userid } = useParams();
-  const [lobbyId, setLobbyId] = useState("");
+  const lobbyId = localStorage.getItem("lobbyId");
   const [owner, setOwner] = useState<User>(null);
+
   async function leaveLobby() {
     try {
       const response = await api.delete(`/lobbies`);
@@ -58,8 +65,12 @@ const Lobby = () => {
   }
 
   async function startGame() {
+    const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
+    // TODO something with the response
     navigate("/table");
   }
+
+
 
 
 
@@ -69,17 +80,17 @@ const Lobby = () => {
   // for more information on the effect hook, please see https://react.dev/reference/react/useEffect 
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
+    const pollingCallback = () => {
     async function fetchData() {
       try {
-        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`); // lobbies/${localStorage.get("lobbyId")
+        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
+        console.log(response)
+        if (response.data.game !== null){
+          navigate("/table")
+        }
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        
 
-        // delays continuous execution of an async operation for 1 second.
-        // This is just a fake async call, so that the spinner can be displayed
-        // feel free to remove it :)
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Get the returned users and update the state.
-        console.log(response.data)
         setUsers(response.data.lobbyUsers);
         setOwner(response.data.lobbyLeader); // need to be changed to response.owner
 
@@ -100,7 +111,29 @@ const Lobby = () => {
     }
 
     fetchData();
-  }, []);
+  };
+
+  const startPolling = () => {
+    // pollingCallback(); // To immediately start fetching data
+    // Polling every  second
+    timerIdRef.current = setInterval(pollingCallback, 1000);
+  };
+
+  const stopPolling = () => {
+    clearInterval(timerIdRef.current);
+  };
+
+  if (isPageVisible && isPollingEnabled) {
+    startPolling();
+  } else {
+    stopPolling();
+  }
+
+  return () => {
+    stopPolling();
+  };
+}, [isPageVisible, isPollingEnabled]);
+
 
   let content = <Spinner />;
 
@@ -111,11 +144,13 @@ const Lobby = () => {
           <div className="player container">
             <div className="player owner">{owner.username}: {owner.money}</div>
           </div>
-          {users.map((user: User) => (
+          {users
+            .filter((user: User) => user.id !== owner.id)
+            .map((user: User, index: number) => ((
             <li key={user.id}>
               <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
             </li>
-          ))}
+          )))}
         </ul>
         <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
         <Button disabled={userid !== owner.id.toString()} className="button" onClick={() => startGame()}>Start Game</Button>
@@ -125,7 +160,7 @@ const Lobby = () => {
 
   return (
     <BaseContainer className="game container">
-      <h2>Play Poker</h2>
+      <h2>Lobby ID: {lobbyId}</h2>
       {content}
     </BaseContainer>
   );

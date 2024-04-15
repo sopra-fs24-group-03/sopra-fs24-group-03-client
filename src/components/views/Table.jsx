@@ -58,7 +58,12 @@ const Table = () => {
     break;
   }
 
- 
+  let playerCards = (
+    <>
+      <img className="table-player card" src="https://deckofcardsapi.com/static/img/5S.png" alt="Card 1" />
+      <img className="table-player card" src="https://deckofcardsapi.com/static/img/6H.png" alt="Card 2" />
+    </>
+  );
 
   const handleRoundButtonClick = () => {
     setRoundCounter((prevRoundCounter) => (prevRoundCounter + 1) % 4);
@@ -84,8 +89,7 @@ const Table = () => {
             </div>
 
             <div className="table-player hand">
-              <img className="table-player card" src="https://deckofcardsapi.com/static/img/5S.png" alt="Card 1" />
-              <img className="table-player card" src="https://deckofcardsapi.com/static/img/6H.png" alt="Card 2" />
+              {playerCards}
             </div>
 
             <div className="table-player actions">
