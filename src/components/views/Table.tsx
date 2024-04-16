@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "styles/views/Table.scss";
 import "../../styles/views/Header.scss";
 import tableImage from "./table_prov.jpg";
+import { User } from "types";
+
 
 const Table = () => {
   const [fold, setFold] = useState(false);
   const [turn, setTurn] = useState(true);
+  const [user, setUser] = useState<User>(null);
 
   let cardsToShow = (
     <>
