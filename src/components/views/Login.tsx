@@ -84,37 +84,41 @@ const Login = () => {
   return (
     <BaseContainer>
       <img className="background" src={Background} alt="" />
-      <div className="login container">
-        <div className="login form">
-          <h2>Login</h2>
-          
-          <FormField
-            label="Username"
-            value={username}
-            onChange={(un: string) => setUsername(un)}
-          />
-          <FormField
-            label="Password"
-            value={password}
-            onChange={(p) => setPassword(p)}
-          />
-          
-          <div className="login button-container" >
-            <Button
-              disabled={!username || !password}
-              width="45%"
-              onClick={() => doLogin()}
-            >
-              Login
-            </Button>
-            <Button
-              width="45%"
-              onClick= {() => doRegister()}
-            >
-              New User
-            </Button>
-          </div>
+      <div className="login-container-custom">
+        <div className="login container">
+          <div className="login form">
+            <h2>Welcome, let&apos;s play Poker</h2>
             
+            <FormField
+              label="Username"
+              value={username}
+              onChange={(un: string) => setUsername(un)}
+            />
+            <FormField
+              label="Password"
+              value={password}
+              onChange={(p) => setPassword(p)}
+            />
+            
+            <div className="login button-container" >
+              <Button 
+                className="login button"
+                disabled={!username || !password}
+                width="45%"
+                onClick={() => doLogin()}
+              >
+                Login
+              </Button>
+              <Button
+                className="login button"
+                disabled={!username || !password}
+                width="45%"
+                onClick= {() => doRegister()}
+              >
+                New User
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </BaseContainer>
