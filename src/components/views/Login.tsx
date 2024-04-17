@@ -83,7 +83,6 @@ const Login = () => {
 
   return (
     <BaseContainer>
-      <img className="background" src={Background} alt="" />
       <div className="login-container-custom">
         <div className="login container">
           <div className="login form">

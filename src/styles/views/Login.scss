@@ -1,17 +1,22 @@
 @import "../theme";
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; /* Makes the table image cover the entire viewport width */
-  height: 100%; /* Makes the table image cover the entire viewport height */
-  z-index: -1; /* Puts the table image behind other elements */
-  opacity: 1; /* Adjust the opacity as needed */
+
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url("./Login.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed; /* Keeps the background image fixed during scrolling */
+  overflow: hidden; /* This will hide any overflow of the body */
 }
+
+
 h2{
   text-align: center;
 }
-
 
 .login {
 
