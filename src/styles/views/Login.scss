@@ -1,5 +1,13 @@
 @import "../theme";
-
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Makes the table image cover the entire viewport width */
+  height: 100%; /* Makes the table image cover the entire viewport height */
+  z-index: -1; /* Puts the table image behind other elements */
+  opacity: 1; /* Adjust the opacity as needed */
+}
 h2{
   text-align: center;
 }

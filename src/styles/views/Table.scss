@@ -16,7 +16,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 65vh; /* Makes the table image cover the entire viewport height */
+  height: 80vh; /* Makes the table image cover the entire viewport height */
 }
 
 .table {
@@ -86,14 +86,15 @@
     height: 12vh;
   }
 
-  &.actions{
+  .actions {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: center;
     gap: 10px;
   }
 
-  .actions button {
+  .actions-button {
     margin: 0 5px;
     background-color: rgb(218, 208, 208);
     border-radius: 5px;
@@ -104,9 +105,50 @@
     padding: 5px; /* Add padding to increase button size */
   }
   
-  .actions button:hover {
+  .actions-button:hover {
     background-color: rgb(250, 247, 247);
   }
+
+  .raise-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .raiseInput {
+    padding: 3px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border-style: none;
+    width: 80%; /* Adjust width */
+  }
+  
+  .tickButton {
+    width: 30px; /* Compact width for the button */
+    height: 25px; /* Compact height for the button */
+    background-color: #4CAF50; /* Eye-catching green for visibility */
+    color: white; /* Contrasting white for the text/icon */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cancelButton {
+    width: 30px;    
+    height: 25px;
+    background-color: #ff4d4f; /* Red color for the cancel button */
+    color: white; /* White text for contrast */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer; /* Cursor as pointer to indicate it's clickable */
+    margin-left: 5px; /* Space between the tick and the cancel button */
+    font-weight: bold; /* Bold font for the 'X' to be more visible */
+  }
+  
+  
 }
 
 .enemy {

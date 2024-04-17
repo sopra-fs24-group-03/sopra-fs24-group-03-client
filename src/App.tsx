@@ -9,13 +9,10 @@ import AppRouter from "./components/routing/routers/AppRouter";
  * Updated by Marco Leder
  */
 const App = () => {
-  useEffect(() => {
-    localStorage.clear()
-  }, []);
+  
   
   return (
     <div>
-      <Header height="100" />
       <AppRouter />
     </div>
   );

@@ -4,3 +4,8 @@ export type User = {
   id: number;
   money: number;
 };
+
+export type TableType = {
+  pot: number;
+  cards: string[];
+};

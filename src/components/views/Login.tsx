@@ -6,6 +6,8 @@ import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import Background from "./Login.jpg";
+
 
 /*
 It is possible to add multiple components inside a single file,
@@ -57,9 +59,31 @@ const Login = () => {
       );
     }
   };
+  const doRegister = async () => {
+    try {
+      const requestBody = JSON.stringify({ username, password });
+      const response = await api.post("/users", requestBody); //api call to the UserController @PostMapping("/users")
+
+      // Get the returned user and update a new object.
+      const user = new User(response.data);
+      //alert(user)
+
+      // Store the token into the local storage.
+      localStorage.setItem("token", user.token);
+
+
+      // Login successfully worked --> navigate to the route /game in the GameRouter
+      navigate(`/home/${user.id}`);
+    } catch (error) {
+      alert(
+        `Something went wrong during the register: \n${handleError(error)}`
+      );
+    }
+  };
 
   return (
     <BaseContainer>
+      <img className="background" src={Background} alt="" />
       <div className="login container">
         <div className="login form">
           <h2>Login</h2>
@@ -85,9 +109,9 @@ const Login = () => {
             </Button>
             <Button
               width="45%"
-              onClick= {() => navigate("/register")}
+              onClick= {() => doRegister()}
             >
-              Go Register
+              New User
             </Button>
           </div>
             
