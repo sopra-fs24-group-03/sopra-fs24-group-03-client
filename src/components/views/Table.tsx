@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { api, handleError } from "helpers/api";
 import "styles/views/Table.scss";
 import "../../styles/views/Header.scss";
 import tableImage from "./table_prov.jpg";
-import { User, TableType } from "types";
-import {useNavigate, useParams} from "react-router-dom";
-
+import { User, TableType, Player } from "types";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePageVisibility } from "helpers/usePageVisibility";
 
 const Table = () => {
+
+  const isPageVisible = usePageVisibility();
+  const timerIdRef = useRef(null);
+  const [isPollingEnabled, setIsPollingEnabled] = useState(true);
+
   const [turn, setTurn] = useState(true);
   const [user, setUser] = useState<User>(null);
   const [testFold, setTestFold] = useState(false);
@@ -15,21 +20,49 @@ const Table = () => {
   const [raiseAmount, setRaiseAmount] = useState(0);
   const [showRaiseInput, setShowRaiseInput] = useState(false);
 
+  const [table, setTable] = useState<TableType>(null);
+  const [players, setPlayers] = useState<Player[]>(null);
+  const [player, setPlayer] = useState<Player>(null);
+  //const tableFiller = () => {
 
-  /* const tableFiller = () => {
-    
   useEffect(() => {
-    async function fetchTable() {
-      try {
-        const tableResp = await api.get("/table");
-        setTable(tableResp.data);
-        tableFiller();
-      } catch (error) {
-        alert(`Something went wrong while fetching the user: \n${error}`);
+    const pollingCallback = () => {
+      async function fetchTable() {
+        try {
+          const tableResp = await api.get(`/games/${localStorage.getItem("lobbyId")}`);
+          console.log(tableResp)
+          setPlayer(tableResp.data.ownPlayer)
+          setPlayers(tableResp.data.players)
+          setTable(tableResp.data.gameTable)
+          //tableFiller();
+        } catch (error) {
+          alert(`Something went wrong while fetching the user: \n${error}`);
+        }
       }
+
+      fetchTable();
+    };
+
+    const startPolling = () => {
+      // pollingCallback(); // To immediately start fetching data
+      // Polling every  second
+      timerIdRef.current = setInterval(pollingCallback, 1000);
+    };
+
+    const stopPolling = () => {
+      clearInterval(timerIdRef.current);
+    };
+
+    if (isPageVisible && isPollingEnabled) {
+      startPolling();
+    } else {
+      stopPolling();
     }
-    fetchTable();
-  }, []); */
+
+    return () => {
+      stopPolling();
+    };
+  }, [isPageVisible, isPollingEnabled]);
 
   /*api put body: {"move": ---, "ammount": ---} */
 
@@ -40,7 +73,7 @@ const Table = () => {
     } catch (error) {
       alert(`Something went wrong while calling: \n${handleError(error)}`);
     }
-  }
+  };
 
   const raise = async (amount) => {
     if (!raiseAmount) {
@@ -48,7 +81,7 @@ const Table = () => {
       toggleRaiseInput();
       return;
     }
-      
+
     try {
       //const requestBody = JSON.stringify({ move: "Raise", ammount: amount });
       setShowRaiseInput(false);
@@ -56,12 +89,12 @@ const Table = () => {
     } catch (error) {
       alert(`Something went wrong while raising: \n${handleError(error)}`);
     }
-  }
+  };
 
   const toggleRaiseInput = () => {
     setShowRaiseInput(!showRaiseInput); // Toggle the visibility of the input field
   };
-  
+
   const fold = async () => {
     try {
       const requestBody = JSON.stringify({ move: "Fold", ammount: 0 });
@@ -70,37 +103,40 @@ const Table = () => {
     } catch (error) {
       alert(`Something went wrong while folding: \n${handleError(error)}`);
     }
-  }
-  
+  };
+
   let cardsToShow = (
-      <>
-        <img className="table card" src="https://www.deckofcardsapi.com/static/img/AS.png" alt="card1" /> {/* <img className="table card" src="table.card1" alt="card1" />}*/}
-        <img className="table card" src="https://www.deckofcardsapi.com/static/img/JD.png" alt="card2" />
-        <img className="table card" src="https://www.deckofcardsapi.com/static/img/0C.png" alt="card3" />
-        <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card4" />
-        <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card5" />
-      </>
+    <>
+      <img className="table card" src="https://www.deckofcardsapi.com/static/img/AS.png"
+           alt="card1" /> {/* <img className="table card" src="table.card1" alt="card1" />}*/}
+      <img className="table card" src="https://www.deckofcardsapi.com/static/img/JD.png" alt="card2" />
+      <img className="table card" src="https://www.deckofcardsapi.com/static/img/0C.png" alt="card3" />
+      <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card4" />
+      <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card5" />
+    </>
   );
-  
+
 
   let playerCards = (
     <>
-      <img className="table-player card" src="https://deckofcardsapi.com/static/img/5S.png" alt="Card 1" /> {/* player.card1*/ }
-      <img className="table-player card" src="https://deckofcardsapi.com/static/img/6H.png" alt="Card 2" /> {/* player.card2*/ }
+      <img className="table-player card" src="https://deckofcardsapi.com/static/img/5S.png"
+           alt="Card 1" /> {/* player.card1*/}
+      <img className="table-player card" src="https://deckofcardsapi.com/static/img/6H.png"
+           alt="Card 2" /> {/* player.card2*/}
     </>
   );
 
   let enemyCards = (
-      <>
-        <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 1" />
-        <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 2" />
-      </>
-    );
+    <>
+      <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 1" />
+      <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 2" />
+    </>
+  );
 
   const resetTurn = () => {
     setTurn(true);
     setTestFold(false);
-  }
+  };
 
   const tablePositions = [ /* table positions for mapping of enemy players */
     "pos1",
@@ -108,12 +144,12 @@ const Table = () => {
     "pos3",
     "pos4",
     "pos5",
-    "pos6"
+    "pos6",
   ];
 
   return (
     <div>
-      <img className="background" src={tableImage} alt="table" />      
+      <img className="background" src={tableImage} alt="table" />
       <div className="table-wrapper">
         <div className="table">
           <div className="table pot">
@@ -130,8 +166,9 @@ const Table = () => {
               <h1>1000</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
             </div>
 
-            <div className="table-player hand"  style={{ visibility: testFold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
-              {playerCards} 
+            <div className="table-player hand"
+                 style={{ visibility: testFold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
+              {playerCards}
             </div>
 
             <div className="table-player actions" style={{ visibility: turn ? "visible" : "hidden" }}>
@@ -151,9 +188,9 @@ const Table = () => {
                 </div>
               ) : (
                 <>
-                  <button className ="actions-button" onClick={fold}>Fold</button>
-                  <button className ="actions-button" onClick={call}>Call</button>
-                  <button className ="actions-button" onClick={toggleRaiseInput}>Raise</button>
+                  <button className="actions-button" onClick={fold}>Fold</button>
+                  <button className="actions-button" onClick={call}>Call</button>
+                  <button className="actions-button" onClick={toggleRaiseInput}>Raise</button>
                 </>
               )}
             </div>
@@ -168,7 +205,7 @@ const Table = () => {
             <div className="enemy money">6000</div>
           </div>
           <div className="enemy cards">
-              {enemyCards}
+            {enemyCards}
           </div>
         </div>
         <div className="pos2">
@@ -221,13 +258,13 @@ const Table = () => {
           </div>
         </div>
 
-          
+
       </div>
-        
+
     </div>
-  );   
-    
-    
+  );
+
+
 };
 
 export default Table;
