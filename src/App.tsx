@@ -12,6 +12,7 @@ const App = () => {
   useEffect(() => {
     localStorage.clear()
   }, []);
+  
   return (
     <div>
       <AppRouter />

@@ -7,7 +7,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Lobby.scss";
 import { User } from "types";
-import { usePageVisibility } from 'helpers/usePageVisibility';
+import { usePageVisibility } from "helpers/usePageVisibility";
 
 const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number}) => {
   const { userid } = useParams();
@@ -21,6 +21,7 @@ const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; owner
       );
     }
   }
+
   return (<div className="player container">
     <div className="player usernameMoney">{user.username}: {user.money}</div>
     <button disabled={userid !== ownerId.toString()} className="player remove" onClick={() => remove(user.id)}>X</button>
@@ -53,13 +54,13 @@ const Lobby = () => {
 
   async function leaveLobby() {
     try {
-      const response = await api.delete(`/lobbies`);
+      const response = await api.delete("/lobbies");
       localStorage.removeItem("lobbyId");
       navigate(`/home/${userid}`);
     }
     catch (error) {
       alert(
-          `Something went wrong while leaving the lobby: \n${handleError(error)}`
+        `Something went wrong while leaving the lobby: \n${handleError(error)}`
       );
     }
   }
@@ -70,10 +71,6 @@ const Lobby = () => {
     navigate(`/table/${response.data.gameId}`);
   }
 
-
-
-
-
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
   // this can be achieved by leaving the second argument an empty array.
@@ -81,58 +78,58 @@ const Lobby = () => {
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     const pollingCallback = () => {
-    async function fetchData() {
-      try {
-        const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
-        console.log(response)
-        if (response.data.game !== null){
-          navigate("/table")
+      async function fetchData() {
+        try {
+          const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
+          console.log(response)
+          if (response.data.game !== null){
+            navigate("/table")
+          }
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          
+
+          setUsers(response.data.lobbyUsers);
+          setOwner(response.data.lobbyLeader); // need to be changed to response.owner
+
+          // See here to get more data.
+          console.log(response);
+        } catch (error) {
+          localStorage.clear();
+          console.error(
+            `Something went wrong while fetching the users: \n${handleError(
+              error
+            )}`
+          );
+          console.error("Details:", error);
+          alert(
+            "Something went wrong while fetching the users! See the console for details."
+          );
         }
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        
-
-        setUsers(response.data.lobbyUsers);
-        setOwner(response.data.lobbyLeader); // need to be changed to response.owner
-
-        // See here to get more data.
-        console.log(response);
-      } catch (error) {
-        localStorage.clear();
-        console.error(
-          `Something went wrong while fetching the users: \n${handleError(
-            error
-          )}`
-        );
-        console.error("Details:", error);
-        alert(
-          "Something went wrong while fetching the users! See the console for details."
-        );
       }
+
+      fetchData();
+    };
+
+    const startPolling = () => {
+      // pollingCallback(); // To immediately start fetching data
+      // Polling every  second
+      timerIdRef.current = setInterval(pollingCallback, 1000);
+    };
+
+    const stopPolling = () => {
+      clearInterval(timerIdRef.current);
+    };
+
+    if (isPageVisible && isPollingEnabled) {
+      startPolling();
+    } else {
+      stopPolling();
     }
 
-    fetchData();
-  };
-
-  const startPolling = () => {
-    // pollingCallback(); // To immediately start fetching data
-    // Polling every  second
-    timerIdRef.current = setInterval(pollingCallback, 1000);
-  };
-
-  const stopPolling = () => {
-    clearInterval(timerIdRef.current);
-  };
-
-  if (isPageVisible && isPollingEnabled) {
-    startPolling();
-  } else {
-    stopPolling();
-  }
-
-  return () => {
-    stopPolling();
-  };
-}, [isPageVisible, isPollingEnabled]);
+    return () => {
+      stopPolling();
+    };
+  }, [isPageVisible, isPollingEnabled]);
 
 
   let content = <Spinner />;
@@ -147,10 +144,10 @@ const Lobby = () => {
           {users
             .filter((user: User) => user.id !== owner.id)
             .map((user: User, index: number) => ((
-            <li key={user.id}>
-              <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
-            </li>
-          )))}
+              <li key={user.id}>
+                <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
+              </li>
+            )))}
         </ul>
         <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
         <Button disabled={userid !== owner.id.toString()} className="button" onClick={() => startGame()}>Start Game</Button>

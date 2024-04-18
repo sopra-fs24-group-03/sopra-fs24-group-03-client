@@ -117,15 +117,6 @@ const Table = () => {
     }
   }
 
-  let playerCards = (
-    <>
-      <img className="table-player card" src="https://deckofcardsapi.com/static/img/5S.png"
-           alt="Card 1" /> {/* player.card1*/}
-      <img className="table-player card" src="https://deckofcardsapi.com/static/img/6H.png"
-           alt="Card 2" /> {/* player.card2*/}
-    </>
-  );
-
   let backCards = ( //stay hidden until player folds or game ends -> shows cards of enemy players
     <>
       <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 1" />
@@ -146,9 +137,9 @@ const Table = () => {
             <h1>{formatMoney(table.pot)}</h1> {/* table.pot */}
           </div>
           <div className="table cards-container" >
-          {table.cards.map((cardUrl, index) => (
-            <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
-          ))}
+            {table.cards.map((cardUrl, index) => (
+              <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+            ))}
           </div>
         </div>
         <div className="player-wrapper">
@@ -159,8 +150,8 @@ const Table = () => {
 
             <div className="table-player hand"  style={{ visibility: player.fold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
               {player.cards.map((cardUrl, index) => ( //player.cards need to be a list of card urls
-              <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
-            ))}
+                <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+              ))}
             </div>
 
             <div className="table-player actions">
