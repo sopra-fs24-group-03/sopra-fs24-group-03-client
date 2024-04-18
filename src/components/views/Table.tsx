@@ -13,9 +13,6 @@ const Table = () => {
   const timerIdRef = useRef(null);
   const [isPollingEnabled, setIsPollingEnabled] = useState(true);
 
-  const [turn, setTurn] = useState(true);
-  const [user, setUser] = useState<User>(null);
-  const [testFold, setTestFold] = useState(false);
   const { gameId } = useParams();
   const [raiseAmount, setRaiseAmount] = useState(0);
   const [showRaiseInput, setShowRaiseInput] = useState(false);
@@ -23,7 +20,8 @@ const Table = () => {
   const [table, setTable] = useState<TableType>(null);
   const [players, setPlayers] = useState<Player[]>(null);
   const [player, setPlayer] = useState<Player>(null);
-  //const tableFiller = () => {
+
+  const [prevRaise] = useState(false);
 
   useEffect(() => {
     const pollingCallback = () => {
@@ -69,53 +67,55 @@ const Table = () => {
   const call = async () => {
     try {
       const requestBody = JSON.stringify({ move: "Call", ammount: 0 });
+      const response = await api.put(`/games/${gameId}`, requestBody);
       //setTable(response.data);
     } catch (error) {
       alert(`Something went wrong while calling: \n${handleError(error)}`);
     }
-  };
+  }
+
+  const check = async () => { //amount needed or automatic check?
+    try {
+      const requestBody = JSON.stringify({ move: "Check", ammount: 0 });
+      const response = await api.put(`/games/${gameId}`, requestBody);
+      //setTable(response.data);
+    } catch (error) {
+      alert(`Something went wrong while checking: \n${handleError(error)}`);
+    }
+  }
 
   const raise = async (amount) => {
     if (!raiseAmount) {
       alert("Please enter an amount to raise.");
       toggleRaiseInput();
+
       return;
     }
-
     try {
-      //const requestBody = JSON.stringify({ move: "Raise", ammount: amount });
+      alert("Raise amount: " + raiseAmount);
+      const requestBody = JSON.stringify({ move: "Raise", ammount: amount });
+      const response = await api.put(`/games/${gameId}`, requestBody);
       setShowRaiseInput(false);
       //setTable(response.data);
     } catch (error) {
       alert(`Something went wrong while raising: \n${handleError(error)}`);
     }
-  };
+  }
 
   const toggleRaiseInput = () => {
     setShowRaiseInput(!showRaiseInput); // Toggle the visibility of the input field
   };
-
+  
   const fold = async () => {
     try {
       const requestBody = JSON.stringify({ move: "Fold", ammount: 0 });
-      setTestFold(true);
+
+      player.fold = true;
       //setTable(response.data);
     } catch (error) {
       alert(`Something went wrong while folding: \n${handleError(error)}`);
     }
-  };
-
-  let cardsToShow = (
-    <>
-      <img className="table card" src="https://www.deckofcardsapi.com/static/img/AS.png"
-           alt="card1" /> {/* <img className="table card" src="table.card1" alt="card1" />}*/}
-      <img className="table card" src="https://www.deckofcardsapi.com/static/img/JD.png" alt="card2" />
-      <img className="table card" src="https://www.deckofcardsapi.com/static/img/0C.png" alt="card3" />
-      <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card4" />
-      <img className="table card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="card5" />
-    </>
-  );
-
+  }
 
   let playerCards = (
     <>
@@ -126,52 +126,42 @@ const Table = () => {
     </>
   );
 
-  let enemyCards = (
+  let backCards = ( //stay hidden until player folds or game ends -> shows cards of enemy players
     <>
       <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 1" />
       <img className="table-player card" src="https://www.deckofcardsapi.com/static/img/back.png" alt="Card 2" />
     </>
   );
 
-  const resetTurn = () => {
-    setTurn(true);
-    setTestFold(false);
-  };
-
-  const tablePositions = [ /* table positions for mapping of enemy players */
-    "pos1",
-    "pos2",
-    "pos3",
-    "pos4",
-    "pos5",
-    "pos6",
-  ];
+  function formatMoney(value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+  }
 
   return (
     <div>
-      <img className="background" src={tableImage} alt="table" />
+      <img className="background" src={tableImage} alt="table" />      
       <div className="table-wrapper">
         <div className="table">
           <div className="table pot">
-            <h1>$100</h1> {/* table.pot */}
-            <button onClick={resetTurn}></button>
+            <h1>{formatMoney(table.pot)}</h1> {/* table.pot */}
           </div>
-          <div className="table cards-container">
-            {cardsToShow}
+          <div className="table cards-container" >
+          {table.cards.map((cardUrl, index) => (
+            <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+          ))}
           </div>
         </div>
         <div className="player-wrapper">
           <div className="table-player">
-            <div className="table-player money">
-              <h1>1000</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+            <div className={player.turn ? "enemy turn" :"table-player money"}>
+              <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
             </div>
 
-            <div className="table-player hand"
-                 style={{ visibility: testFold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
-              {playerCards}
+            <div className="table-player hand"  style={{ visibility: player.fold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
+              {playerCards}  {/* map player.cards if it works */}
             </div>
 
-            <div className="table-player actions" style={{ visibility: turn ? "visible" : "hidden" }}>
+            <div className="table-player actions">
               {showRaiseInput ? (
                 <div className="raise-wrapper">
                   <input
@@ -180,87 +170,42 @@ const Table = () => {
                     className="raiseInput"
                     value={raiseAmount}
                     onChange={(e) => setRaiseAmount(e.target.value)}
-                    placeholder="Amount to Raise"
+                    placeholder="Raise Pot to"
                   />
-                  <button className="tickButton" onClick={raise}>✓</button>
-                  <button className="cancelButton" onClick={() => setShowRaiseInput(false)}>X</button>
+                  <button className="tickButton" onClick={raise} disabled={!player.turn}>✓</button>
+                  <button className="cancelButton" onClick={() => setShowRaiseInput(false)} disabled={!player.turn}>X</button>
 
                 </div>
               ) : (
                 <>
-                  <button className="actions-button" onClick={fold}>Fold</button>
-                  <button className="actions-button" onClick={call}>Call</button>
-                  <button className="actions-button" onClick={toggleRaiseInput}>Raise</button>
+                  <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
+                  {prevRaise ? 
+                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>: 
+                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
+                  }
+                  <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                 </>
               )}
             </div>
-
           </div>
         </div>
       </div>
+      
       <div className="enemy">
-        <div className="pos1">
-          <div className="enemy info">
-            <div className="enemy username">Player 1</div>
-            <div className="enemy money">6000</div>
+        {players.map((player, index) => (
+          <div className={`pos${index + 1}`} key={player.id}>
+            <div className={player.turn ? "enemy turn" : "enemy info"}>
+              <div className="enemy username">{player.username}</div>
+              <div className="enemy money">{formatMoney(player.money)}</div>
+              {player.fold && <div className="enemy fold-status">Fold</div>}
+            </div>
+            <div className="enemy cards" style={{ visibility: player.fold ? "hidden" : "visible" }}>
+              {/* Placeholder for backCards showing */}
+              {backCards}
+            </div>
           </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-        <div className="pos2">
-          <div className="enemy info">
-            <div className="enemy username">Player 2</div>
-            <div className="enemy money">5000</div>
-          </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-
-        <div className="pos3">
-          <div className="enemy info">
-            <div className="enemy username">Player 3</div>
-            <div className="enemy money">4000</div>
-          </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-
-        <div className="pos4">
-          <div className="enemy info">
-            <div className="enemy username">Player 4</div>
-            <div className="enemy money">3000</div>
-          </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-
-        <div className="pos5">
-          <div className="enemy info">
-            <div className="enemy username">Player 5</div>
-            <div className="enemy money">2000</div>
-          </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-
-        <div className="pos6">
-          <div className="enemy info">
-            <div className="enemy username">Player 6</div>
-            <div className="enemy money">1000</div>
-          </div>
-          <div className="enemy cards">
-            {enemyCards}
-          </div>
-        </div>
-
-
+        ))}
       </div>
-
     </div>
   );
 

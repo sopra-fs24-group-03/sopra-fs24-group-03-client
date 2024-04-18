@@ -109,6 +109,10 @@
     background-color: rgb(250, 247, 247);
   }
 
+  .actions-button:disabled {
+    cursor: not-allowed;
+  }
+
   .raise-wrapper {
     display: flex;
     flex-direction: row;
@@ -161,11 +165,22 @@
     margin-bottom: 5%;
     font-size: larger;
   }
+  &.turn{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: yellow;
+    margin-bottom: 5%;
+    font-size: larger;
+    font-weight: bold;
+  }
+
   &.cards{
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 15px;
+    position: relative; /* Added to act as a positioning context for the fold text */
   }
   &.cards img:first-child {
     left: 50%; /* Move the first card to the center horizontally */
@@ -175,6 +190,19 @@
     margin: 0 -25px; /* Adjust the negative margin to control the amount of overlap */
     right: 50%; /* Move the last card to the center horizontally */
     transform: rotate(5deg); /* Rotate the last card slightly and center it */
+  }
+
+  &.fold-status{
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(0, 0, 0);
+    font-size: 35px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10; /* Ensures it appears above the cards */
   }
 
   .pos1{
