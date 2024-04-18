@@ -158,7 +158,9 @@ const Table = () => {
             </div>
 
             <div className="table-player hand"  style={{ visibility: player.fold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
-              {playerCards}  {/* map player.cards if it works */}
+              {player.cards.map((cardUrl, index) => ( //player.cards need to be a list of card urls
+              <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+            ))}
             </div>
 
             <div className="table-player actions">
