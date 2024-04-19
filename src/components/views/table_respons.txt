@@ -1,0 +1,39 @@
+{
+    "id": 7,
+    "money": 0,
+    "players": [
+        {
+            "id": 3,
+            "money": 1975,
+            "username": "ll4",
+            "folded": false
+        },
+        {
+            "id": 4,
+            "money": 1950,
+            "username": "ll5",
+            "folded": false
+        }
+    ],
+    "ownPlayer": {
+        "id": 3,
+        "username": "ll4",
+        "money": 1975,
+        "cards": [
+            {
+                "code": "3S",
+                "image": "https://deckofcardsapi.com/static/img/3S.png"
+            },
+            {
+                "code": "AD",
+                "image": "https://deckofcardsapi.com/static/img/aceDiamonds.png"
+            }
+        ],
+        "folded": false
+    },
+    "gameTable": {
+        "money": 75,
+        "id": 8,
+        "openCards": []
+    }
+}

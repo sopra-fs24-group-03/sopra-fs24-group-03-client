@@ -17,10 +17,10 @@ const Table = () => {
   const [raiseAmount, setRaiseAmount] = useState(0);
   const [showRaiseInput, setShowRaiseInput] = useState(false);
 
-  const [table, setTable] = useState<TableType>(null);
-  const [players, setPlayers] = useState<Player[]>(null);
-  const [player, setPlayer] = useState<Player>(null);
-
+  const [table, setTable] = useState<TableType | null>(null);  // Initially null, set a proper structure once loaded
+  const [players, setPlayers] = useState<Player[]>([]);  // Initialize as an empty array
+  const [player, setPlayer] = useState<Player | null>(null);  // Initially null
+  
   const [prevRaise] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const Table = () => {
           alert(`Something went wrong while fetching the user: \n${error}`);
         }
       }
-
       fetchTable();
     };
 
@@ -124,8 +123,20 @@ const Table = () => {
     </>
   );
 
+  let playerCards = player?.cards?.length > 0 ? (
+    <>
+      {player.cards.map((card, index) => (
+        <img key={index} className="table-player card" src={card.image} alt={`Card ${index + 1}`} />
+      ))}
+    </>
+  ) : <p>No cards</p>;
+
   function formatMoney(value) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+  }
+
+  if (!table || !players || !player) {
+    return <div>Loading...</div>; // Display loading state or spinner here
   }
 
   return (
@@ -134,12 +145,15 @@ const Table = () => {
       <div className="table-wrapper">
         <div className="table">
           <div className="table pot">
-            <h1>{formatMoney(table.pot)}</h1> {/* table.pot */}
+            <h1>Pot: {table.pot || 0}</h1> {/* table.pot */}
           </div>
           <div className="table cards-container" >
-            {table.cards.map((cardUrl, index) => (
-              <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
-            ))}
+            {table?.cards?.length > 0 ? (
+              table.cards.map((cardUrl, index) => (
+                <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+              ))
+            ) : <p>No cards on table</p>
+            }
           </div>
         </div>
         <div className="player-wrapper">
@@ -149,9 +163,7 @@ const Table = () => {
             </div>
 
             <div className="table-player hand"  style={{ visibility: player.fold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
-              {player.cards.map((cardUrl, index) => ( //player.cards need to be a list of card urls
-                <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
-              ))}
+              {backCards}
             </div>
 
             <div className="table-player actions">
@@ -185,14 +197,16 @@ const Table = () => {
       </div>
       
       <div className="enemy">
-        {players.map((player, index) => (
-          <div className={`pos${index + 1}`} key={player.id}>
-            <div className={player.turn ? "enemy turn" : "enemy info"}>
-              <div className="enemy username">{player.username}</div>
-              <div className="enemy money">{formatMoney(player.money)}</div>
-              {player.fold && <div className="enemy fold-status">Fold</div>}
+        {players
+        .filter((enemy: Player) => enemy.id !== player.id)
+        .map((enemy, index) => (
+          <div className={`pos${index + 1}`} key={enemy.id}>
+            <div className={enemy.turn ? "enemy turn" : "enemy info"}>
+              <div className="enemy username">{enemy.username}</div>
+              <div className="enemy money">{formatMoney(enemy.money)}</div>
+              {enemy.fold && <div className="enemy fold-status">Fold</div>}
             </div>
-            <div className="enemy cards" style={{ visibility: player.fold ? "hidden" : "visible" }}>
+            <div className="enemy cards" style={{ visibility: enemy.fold ? "hidden" : "visible" }}>
               {/* Placeholder for backCards showing */}
               {backCards}
             </div>

@@ -68,7 +68,7 @@ const Lobby = () => {
   async function startGame() {
     const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
     // TODO something with the response
-    navigate(`/table/${response.data.gameId}`);
+    navigate(`/table`);
   }
 
   // the effect hook can be used to react to change in your component.
