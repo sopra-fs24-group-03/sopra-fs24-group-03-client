@@ -7,8 +7,8 @@ export type User = {
 
 export type TableType = {
   id: number;
-  pot: number;
-  cards: Card[];
+  money: number;
+  openCardsImage: string[];
 };
 
 export type Card = {
@@ -21,6 +21,8 @@ export type Player = {
   name: string;
   id: number;
   money: number;
-  card:Card[];
+  folded: boolean;
+  turn: boolean;
+  cardsImage:string[];
 };
 

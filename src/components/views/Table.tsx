@@ -13,7 +13,7 @@ const Table = () => {
   const timerIdRef = useRef(null);
   const [isPollingEnabled, setIsPollingEnabled] = useState(true);
 
-  const { gameId } = useParams();
+  const gameId  = localStorage.getItem("lobbyId");
   const [raiseAmount, setRaiseAmount] = useState(0);
   const [showRaiseInput, setShowRaiseInput] = useState(false);
 
@@ -83,16 +83,16 @@ const Table = () => {
     }
   }
 
-  const raise = async (amount) => {
+  const raise = async () => {
     if (!raiseAmount) {
       alert("Please enter an amount to raise.");
       toggleRaiseInput();
-
+      
       return;
     }
     try {
       alert("Raise amount: " + raiseAmount);
-      const requestBody = JSON.stringify({ move: "Raise", ammount: amount });
+      const requestBody = JSON.stringify({ move: "Raise", ammount: raiseAmount });
       const response = await api.put(`/games/${gameId}`, requestBody);
       setShowRaiseInput(false);
       //setTable(response.data);
@@ -108,6 +108,7 @@ const Table = () => {
   const fold = async () => {
     try {
       const requestBody = JSON.stringify({ move: "Fold", ammount: 0 });
+      const response = await api.put(`/games/${gameId}`, requestBody);
 
       player.fold = true;
       //setTable(response.data);
@@ -123,10 +124,10 @@ const Table = () => {
     </>
   );
 
-  let playerCards = player?.cards?.length > 0 ? (
+  let playerCards = player?.cardsImage?.length > 0 ? (
     <>
-      {player.cards.map((card, index) => (
-        <img key={index} className="table-player card" src={card.image} alt={`Card ${index + 1}`} />
+      {player.cardsImage.map((card, index) => (
+        <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
       ))}
     </>
   ) : <p>No cards</p>;
@@ -145,15 +146,14 @@ const Table = () => {
       <div className="table-wrapper">
         <div className="table">
           <div className="table pot">
-            <h1>Pot: {table.pot || 0}</h1> {/* table.pot */}
+            <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
           </div>
           <div className="table cards-container" >
-            {table?.cards?.length > 0 ? (
-              table.cards.map((cardUrl, index) => (
-                <img key={index} className="table card" src={cardUrl} alt={`Card ${index + 1}`} />
+            {table?.openCardsImage?.length > 0 ? (
+              table.openCardsImage.map((card, index) => (
+                <img key={index} className="table card" src={card} alt={`Card ${index}`} />
               ))
-            ) : <p>No cards on table</p>
-            }
+            ) : <p>No cards on table</p>}
           </div>
         </div>
         <div className="player-wrapper">
@@ -162,8 +162,8 @@ const Table = () => {
               <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
             </div>
 
-            <div className="table-player hand"  style={{ visibility: player.fold ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
-              {backCards}
+            <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}            
+              {playerCards}
             </div>
 
             <div className="table-player actions">
@@ -177,18 +177,16 @@ const Table = () => {
                     onChange={(e) => setRaiseAmount(e.target.value)}
                     placeholder="Raise Pot to"
                   />
-                  <button className="tickButton" onClick={raise} disabled={!player.turn}>✓</button>
-                  <button className="cancelButton" onClick={() => setShowRaiseInput(false)} disabled={!player.turn}>X</button>
+                  <button className="tickButton" onClick={raise}>✓</button>
+                  <button className="cancelButton" onClick={() => setShowRaiseInput(false)}>X</button>
 
                 </div>
               ) : (
                 <>
-                  <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                  {prevRaise ? 
-                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>: 
-                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
-                  }
-                  <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
+                  <button className ="actions-button" onClick={fold}>Fold</button>
+                  <button className ="actions-button" onClick={check}>Check</button>
+                  <button className ="actions-button" onClick={call}>Call</button>
+                  <button className ="actions-button" onClick={toggleRaiseInput}>Raise</button>
                 </>
               )}
             </div>
@@ -198,20 +196,20 @@ const Table = () => {
       
       <div className="enemy">
         {players
-        .filter((enemy: Player) => enemy.id !== player.id)
-        .map((enemy, index) => (
-          <div className={`pos${index + 1}`} key={enemy.id}>
-            <div className={enemy.turn ? "enemy turn" : "enemy info"}>
-              <div className="enemy username">{enemy.username}</div>
-              <div className="enemy money">{formatMoney(enemy.money)}</div>
-              {enemy.fold && <div className="enemy fold-status">Fold</div>}
+          .filter((enemy: Player) => enemy.id !== player.id)
+          .map((enemy, index) => (
+            <div className={`pos${index + 1}`} key={enemy.id}>
+              <div className={enemy.turn ? "enemy turn" : "enemy info"}>
+                <div className="enemy username">{enemy.username}</div>
+                <div className="enemy money">{formatMoney(enemy.money)}</div>
+                {enemy.fold && <div className="enemy fold-status">Fold</div>}
+              </div>
+              <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                {/* Placeholder for backCards showing */}
+                {backCards}
+              </div>
             </div>
-            <div className="enemy cards" style={{ visibility: enemy.fold ? "hidden" : "visible" }}>
-              {/* Placeholder for backCards showing */}
-              {backCards}
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
