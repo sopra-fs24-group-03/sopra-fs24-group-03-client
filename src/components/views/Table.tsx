@@ -183,10 +183,10 @@ const Table = () => {
                 </div>
               ) : (
                 <>
-                  <button className ="actions-button" onClick={fold}>Fold</button>
-                  <button className ="actions-button" onClick={check}>Check</button>
-                  <button className ="actions-button" onClick={call}>Call</button>
-                  <button className ="actions-button" onClick={toggleRaiseInput}>Raise</button>
+                  <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
+                  <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
+                  <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
+                  <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                 </>
               )}
             </div>
