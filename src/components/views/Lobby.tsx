@@ -66,9 +66,15 @@ const Lobby = () => {
   }
 
   async function startGame() {
-    const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
-    // TODO something with the response
-    navigate(`/table`);
+    try {
+      const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
+      navigate(`/table/${userid}`);
+    }
+    catch (error) {
+      alert(
+        `Something went wrong while starting game: \n${handleError(error)}`
+      );
+    }
   }
 
   // the effect hook can be used to react to change in your component.
@@ -82,8 +88,8 @@ const Lobby = () => {
         try {
           const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
           console.log(response)
-          if (response.data.game !== null){
-            navigate("/table")
+          if (response.data.game !== null && response.data.game.gameFinished === false){
+            navigate(`/table/${userid}`)
           }
           await new Promise((resolve) => setTimeout(resolve, 100));
           

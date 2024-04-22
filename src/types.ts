@@ -11,18 +11,19 @@ export type TableType = {
   openCardsImage: string[];
 };
 
-export type Card = {
-  code:string;
-  image:string
-};
-
 export type Player = {
-  username: string;
-  name: string;
   id: number;
+  username: string;
   money: number;
   folded: boolean;
   turn: boolean;
   cardsImage:string[];
+};
+
+export type Game = {
+  id:number;
+  gameFinished:boolean;
+  winningplayer:Player;
+  notFoldedPlayers:Player[];
 };
 
