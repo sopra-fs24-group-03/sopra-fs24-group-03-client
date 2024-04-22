@@ -11,6 +11,17 @@
   opacity: 1; /* Adjust the opacity as needed */
 }
 
+.highlight-turn{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: yellow;
+  margin-bottom: 5%;
+  font-size: larger;
+  font-weight: bold;
+}
+
+
 .table-wrapper {
   display: flex;
   flex-direction: column;
@@ -164,15 +175,6 @@
     color: white;
     margin-bottom: 5%;
     font-size: larger;
-  }
-  &.turn{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: yellow;
-    margin-bottom: 5%;
-    font-size: larger;
-    font-weight: bold;
   }
 
   &.cards{

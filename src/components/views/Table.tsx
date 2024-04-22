@@ -155,23 +155,23 @@ const Table = () => {
   }
   if(game.gameFinished){ //if game is finished show table the cards of the winning player and
     return(
-    <div>
-      <img className="background" src={tableImage} alt="table" />
-      <div className="table-wrapper">
-        <div className="table">
-          <div className="table pot">
-            <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
-          </div>
-          <div className="table cards-container">
-            {table?.openCardsImage?.length > 0 ? (
-              table.openCardsImage.map((card, index) => (
-                <img key={index} className="table card" src={card} alt={`Card ${index}`} />
-              ))
-            ) : <p>No cards on table</p>}
+      <div>
+        <img className="background" src={tableImage} alt="table" />
+        <div className="table-wrapper">
+          <div className="table">
+            <div className="table pot">
+              <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
+            </div>
+            <div className="table cards-container">
+              {table?.openCardsImage?.length > 0 ? (
+                table.openCardsImage.map((card, index) => (
+                  <img key={index} className="table card" src={card} alt={`Card ${index}`} />
+                ))
+              ) : <p>No cards on table</p>}
+            </div>
           </div>
         </div>
-        </div>
-    </div>
+      </div>
     );
   } else {
     return (
@@ -192,7 +192,7 @@ const Table = () => {
           </div>
           <div className="player-wrapper">
             <div className="table-player">
-              <div className={player.turn ? "enemy turn" :"table-player money"}>
+              <div className={player.turn ? "highlight-turn" :"table-player money"}>
                 <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
               </div>
 
@@ -233,7 +233,7 @@ const Table = () => {
             .filter((enemy: Player) => enemy.id !== player.id)
             .map((enemy, index) => (
               <div className={`pos${index + 1}`} key={enemy.id}>
-                <div className={enemy.turn ? "enemy turn" : "enemy info"}>
+                <div className={enemy.turn ? "highlight-turn" : "enemy info"}>
                   <div className="enemy username">{enemy.username}</div>
                   <div className="enemy money">{formatMoney(enemy.money)}</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}

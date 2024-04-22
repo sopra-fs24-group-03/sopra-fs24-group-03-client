@@ -51,6 +51,7 @@ const Lobby = () => {
   const { userid } = useParams();
   const lobbyId = localStorage.getItem("lobbyId");
   const [owner, setOwner] = useState<User>(null);
+  const [Disabled, setDisabled] = useState(false);
 
   async function leaveLobby() {
     try {
@@ -66,6 +67,8 @@ const Lobby = () => {
   }
 
   async function startGame() {
+    setDisabled(true);
+    setTimeout(() => setDisabled(false), 2500);
     try {
       const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
       navigate(`/table/${userid}`);
@@ -156,7 +159,7 @@ const Lobby = () => {
             )))}
         </ul>
         <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
-        <Button disabled={userid !== owner.id.toString()} className="button" onClick={() => startGame()}>Start Game</Button>
+        <Button disabled={userid !== owner.id.toString() || Disabled} className="button" onClick={() => startGame()}>Start Game</Button> {/* disable button */}
       </div>
     );
   }
