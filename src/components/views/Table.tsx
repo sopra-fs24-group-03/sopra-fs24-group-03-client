@@ -106,7 +106,7 @@ const Table = () => {
     }
     try {
       alert("Raise amount: " + raiseAmount);
-      const requestBody = JSON.stringify({ move: "Raise", ammount: raiseAmount });
+      const requestBody = JSON.stringify({ move: "Raise", amount: raiseAmount });
       const response = await api.put(`/games/${gameId}`, requestBody);
       setShowRaiseInput(false);
       //setTable(response.data);
