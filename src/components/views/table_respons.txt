@@ -38,6 +38,7 @@
     "gameTable": {
         "money": 150,
         "id": 5,
+        "prevRaise": 100,
         "openCardsImage": [
             "https://deckofcardsapi.com/static/img/4H.png",
             "https://deckofcardsapi.com/static/img/9S.png",

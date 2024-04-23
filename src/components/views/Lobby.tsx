@@ -158,17 +158,20 @@ const Lobby = () => {
               </li>
             )))}
         </ul>
-        <Button className="button" onClick={() => leaveLobby()}>Leave Table</Button>
-        <Button disabled={userid !== owner.id.toString() || Disabled} className="button" onClick={() => startGame()}>Start Game</Button> {/* disable button */}
+        <div className="game button-container">
+          <Button className="button" width="50%" onClick={() => leaveLobby()}>Leave Table</Button>
+          <Button disabled={userid !== owner.id.toString() || Disabled} className="button" width="50%" onClick={() => startGame()}>Start Game</Button> {/* disable button */}
+        </div>
       </div>
+        
     );
   }
 
   return (
-    <BaseContainer className="game container">
+    <div className="game container">
       <h2>Lobby ID: {lobbyId}</h2>
       {content}
-    </BaseContainer>
+    </div>
   );
 };
 

@@ -20,6 +20,7 @@ const FormField = (props) => {
     <div className="login field">
       <label className="login label">{props.label}</label>
       <input
+        type={props.inputType}  // Use the inputType prop to set the type of the input
         className="login input"
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
@@ -30,9 +31,11 @@ const FormField = (props) => {
 
 FormField.propTypes = {
   label: PropTypes.string,
+  inputType: PropTypes.string, // New prop type for input type
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -90,11 +93,13 @@ const Login = () => {
             
             <FormField
               label="Username"
+              inputType="text"
               value={username}
               onChange={(un: string) => setUsername(un)}
             />
             <FormField
               label="Password"
+              inputType="password"
               value={password}
               onChange={(p) => setPassword(p)}
             />

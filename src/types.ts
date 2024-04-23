@@ -9,6 +9,7 @@ export type TableType = {
   id: number;
   money: number;
   openCardsImage: string[];
+  prevRaise: number;
 };
 
 export type Player = {

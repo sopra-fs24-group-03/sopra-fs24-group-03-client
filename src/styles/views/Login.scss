@@ -48,16 +48,15 @@ h2{
   
   &.container {
     margin-top: 10em;
-    margin-left: 15em;
-    min-height: 300px;
     /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
     @include center;
     flex-direction: column;
   }
   &.form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -55%);
     width: 60%;
     max-width: 30em;
     height: 22em;
@@ -104,7 +103,7 @@ h2{
   &.label {
     color: $textColor;
     margin-bottom: 10px;
-    text-transform: lowercase;
+    text-transform: lowercase; 
     font-weight: 300;
   }
   &.button-container {
