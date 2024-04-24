@@ -15,7 +15,7 @@ h1{
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-75%, -55%);
+  transform: translate(-90%, -50%); //previous value -75%
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -91,7 +91,7 @@ h1{
 
   .value {
     margin: 0.5em 0;
-    font-weight: 300;
+    font-weight: bold;
     border-radius: $borderRadius;
     width: 20em;
     padding: 10px;

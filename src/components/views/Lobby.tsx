@@ -24,7 +24,7 @@ const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; owner
 
   return (<div className="player container">
     <div className="player usernameMoney">{user.username}: {user.money}</div>
-    <button disabled={userid !== ownerId.toString()} className="player remove" onClick={() => remove(user.id)}>X</button>
+    <button   style={{ visibility: userid === ownerId.toString() ? "visible" : "hidden" }} className="player remove" onClick={() => remove(user.id)}>X</button>
   </div>);
 
 };
@@ -146,6 +146,7 @@ const Lobby = () => {
   if (users) {
     content = (
       <div className="game">
+        <h2>Lobby ID: {lobbyId}</h2>
         <ul className="game user-list">
           <div className="player container">
             <div className="player owner">{owner.username}: {owner.money}</div>
@@ -169,7 +170,6 @@ const Lobby = () => {
 
   return (
     <div className="game container">
-      <h2>Lobby ID: {lobbyId}</h2>
       {content}
     </div>
   );

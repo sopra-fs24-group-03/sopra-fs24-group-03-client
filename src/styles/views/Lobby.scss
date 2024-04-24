@@ -54,7 +54,7 @@
     flex-direction: column;
     box-shadow: $dropShadow;
     color: white;
-    width: 30%;
+    align-items: center;
   }
   &.user-list {
     list-style: none;
