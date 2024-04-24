@@ -170,6 +170,42 @@ const Table = () => {
               ) : <p>No cards on table</p>}
             </div>
           </div>
+          <div className="player-wrapper">
+            <div className="table-player">
+              <div className={player.id === game.winner.id ? "highlight-turn" :"table-player money"}>
+                {player.id === game.winner.id && <h1>WINNER</h1>}
+                <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+              </div>
+
+              <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
+                {playerCards}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="enemy">
+          {game.notFoldedPlayers
+            .filter((enemy: Player) => enemy.id !== player.id)
+            .map((enemy, index) => (
+              <div className={`pos${index + 1}`} key={enemy.id}>
+                <div className={enemy.id === game.winner.id ? "highlight-turn" : "enemy info"}>
+                  {enemy.id === game.winner.id && <h1>WINNER</h1>}
+                  <div className="enemy username">{enemy.username}</div>
+                  <div className="enemy money">{formatMoney(enemy.money)}</div>
+                  {enemy.fold && <div className="enemy fold-status">Fold</div>}
+                </div>
+                <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                  {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
+                    <>
+                      {enemy.cardsImage.map((card, index) => (
+                        <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
+                      ))}
+                    </>
+                  ) : <p>No cards</p>}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     );

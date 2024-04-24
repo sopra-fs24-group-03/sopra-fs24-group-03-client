@@ -24,7 +24,7 @@ export type Player = {
 export type Game = {
   id:number;
   gameFinished:boolean;
-  winningplayer:Player;
+  winner:Player;
   notFoldedPlayers:Player[];
 };
 
