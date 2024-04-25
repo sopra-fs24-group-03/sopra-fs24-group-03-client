@@ -1,0 +1,245 @@
+
+
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Makes the table image cover the entire viewport width */
+  height: 100%; /* Makes the table image cover the entire viewport height */
+  z-index: -1; /* Puts the table image behind other elements */
+  opacity: 1; /* Adjust the opacity as needed */
+}
+
+.highlight-turn{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: yellow;
+  margin-bottom: 5%;
+  font-size: larger;
+  font-weight: bold;
+}
+
+
+.table-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Makes the table image cover the entire viewport height */
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; // Changed to flex-start to keep items at the top
+  align-items: center;
+  
+  &.cards-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  &.card{
+    height: 15vh;
+  }
+
+  &.pot{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+  }
+}
+.player-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 7%;
+}
+
+.table-player {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; // Changed to flex-start to keep items at the top
+  align-items: center;  
+
+  &.money{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    margin-bottom: 5%;
+  }
+
+  &.hand{
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 12%;
+  }
+  .hand img:first-child {
+    margin: 0 -10px; /* Adjust the negative margin to control the amount of overlap */
+    left: 50%; /* Move the first card to the center horizontally */
+    transform: rotate(-5deg); /* Rotate the first card slightly and center it */
+  }
+  
+  .hand img:last-child {
+    margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
+    right: 50%; /* Move the last card to the center horizontally */
+    transform: rotate(5deg); /* Rotate the last card slightly and center it */
+  }
+
+  &.card{
+    height: 12vh;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .actions-button {
+    margin: 0 5px;
+    background-color: rgb(218, 208, 208);
+    border-radius: 5px;
+    border: none;
+    font-weight: 750;
+    width: 35%; /* Adjust width */
+    height: 20%; /* Adjust height */
+    padding: 5px; /* Add padding to increase button size */
+  }
+  
+  .actions-button:hover {
+    background-color: rgb(250, 247, 247);
+  }
+
+  .actions-button:disabled {
+    cursor: not-allowed;
+  }
+
+  .raise-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .raiseInput {
+    padding: 3px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border-style: none;
+    width: 80%; /* Adjust width */
+  }
+  
+  .tickButton {
+    width: 30px; /* Compact width for the button */
+    height: 25px; /* Compact height for the button */
+    background-color: #4CAF50; /* Eye-catching green for visibility */
+    color: white; /* Contrasting white for the text/icon */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cancelButton {
+    width: 30px;    
+    height: 25px;
+    background-color: #ff4d4f; /* Red color for the cancel button */
+    color: white; /* White text for contrast */
+    border: none;
+    border-radius: 3px;
+    cursor: pointer; /* Cursor as pointer to indicate it's clickable */
+    margin-left: 5px; /* Space between the tick and the cancel button */
+    font-weight: bold; /* Bold font for the 'X' to be more visible */
+  }
+  
+  
+}
+
+.enemy {
+
+  &.info{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    margin-bottom: 5%;
+    font-size: larger;
+  }
+
+  &.cards{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    position: relative; /* Added to act as a positioning context for the fold text */
+  }
+  &.cards img:first-child {
+    left: 50%; /* Move the first card to the center horizontally */
+    margin: 0 -15px; /* Adjust the negative margin to control the amount of overlap */
+  }
+  &.cards img:last-child {
+    margin: 0 -25px; /* Adjust the negative margin to control the amount of overlap */
+    right: 50%; /* Move the last card to the center horizontally */
+    transform: rotate(5deg); /* Rotate the last card slightly and center it */
+  }
+
+  &.fold-status{
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(0, 0, 0);
+    font-size: 35px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 10; /* Ensures it appears above the cards */
+  }
+
+  .pos1{
+    position: absolute;
+    bottom: 15%;
+    left: 20%;
+  }
+
+  .pos2{
+    position: absolute;
+    bottom: 15%;
+    right: 21%;
+  }
+
+  .pos3{
+    position: absolute;
+    bottom: 42%;
+    left: 10%;
+  }
+
+  .pos4{
+    position: absolute;
+    bottom: 42%;
+    right: 10%;
+  }
+
+  .pos5{
+    position: absolute;
+    top: 15%;
+    left: 20%;
+  }
+
+  .pos6{
+    position: absolute;
+    top: 15%;
+    right: 21%;
+  }
+}

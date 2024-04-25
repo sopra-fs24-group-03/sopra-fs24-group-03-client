@@ -1,0 +1,49 @@
+{
+    "id": 4,
+    "moneyInPot": 0,
+    "players": [
+        {
+            "id": 1,
+            "money": 1950,
+            "username": "linus",
+            "folded": false,
+            "turn": false
+        },
+        {
+            "id": 2,
+            "money": 1950,
+            "username": "hans",
+            "folded": false,
+            "turn": false
+        },
+        {
+            "id": 3,
+            "money": 1950,
+            "username": "peter",
+            "folded": false,
+            "turn": true
+        }
+    ],
+    "ownPlayer": {
+        "id": 1,
+        "username": "linus",
+        "money": 1950,
+        "cardsImage": [
+            "https://deckofcardsapi.com/static/img/AC.png",
+            "https://deckofcardsapi.com/static/img/9C.png"
+        ],
+        "folded": false,
+        "turn": false
+    },
+    "gameTable": {
+        "money": 150,
+        "id": 5,
+        "prevRaise": 100,
+        "openCardsImage": [
+            "https://deckofcardsapi.com/static/img/4H.png",
+            "https://deckofcardsapi.com/static/img/9S.png",
+            "https://deckofcardsapi.com/static/img/5C.png"
+        ]
+    },
+    "gameFinished": false
+}
