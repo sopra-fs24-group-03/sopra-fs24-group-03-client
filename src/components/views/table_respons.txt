@@ -1,49 +1,73 @@
 {
-    "id": 4,
-    "moneyInPot": 0,
+    "id": 2,
+    "currentBet": 0,
     "players": [
         {
-            "id": 1,
-            "money": 1950,
-            "username": "linus",
-            "folded": false,
-            "turn": false
-        },
-        {
-            "id": 2,
-            "money": 1950,
-            "username": "hans",
-            "folded": false,
-            "turn": false
-        },
-        {
-            "id": 3,
-            "money": 1950,
-            "username": "peter",
+            "id": 7,
+            "money": 1875,
+            "username": "erer",
             "folded": false,
             "turn": true
+        },
+        {
+            "id": 8,
+            "money": 2025,
+            "username": "dfdf",
+            "folded": true,
+            "turn": false
         }
     ],
     "ownPlayer": {
-        "id": 1,
-        "username": "linus",
-        "money": 1950,
+        "id": 7,
+        "username": "erer",
+        "money": 1875,
         "cardsImage": [
-            "https://deckofcardsapi.com/static/img/AC.png",
-            "https://deckofcardsapi.com/static/img/9C.png"
+            "https://deckofcardsapi.com/static/img/5D.png",
+            "https://deckofcardsapi.com/static/img/8S.png"
+        ],
+        "folded": false,
+        "turn": true
+    },
+    "gameTable": {
+        "money": 100,
+        "id": 7,
+        "openCardsImage": [
+            "https://deckofcardsapi.com/static/img/0D.png",
+            "https://deckofcardsapi.com/static/img/8D.png",
+            "https://deckofcardsapi.com/static/img/2C.png"
+        ]
+    },
+    "gameFinished": true,
+    "winner": {
+        "id": 7,
+        "username": "erer",
+        "money": 1875,
+        "cardsImage": [
+            "https://deckofcardsapi.com/static/img/5D.png",
+            "https://deckofcardsapi.com/static/img/8S.png"
         ],
         "folded": false,
         "turn": false
     },
-    "gameTable": {
-        "money": 150,
-        "id": 5,
-        "prevRaise": 100,
-        "openCardsImage": [
-            "https://deckofcardsapi.com/static/img/4H.png",
-            "https://deckofcardsapi.com/static/img/9S.png",
-            "https://deckofcardsapi.com/static/img/5C.png"
-        ]
-    },
-    "gameFinished": false
+    "notFoldedPlayers": [
+        {
+            "id": 7,
+            "username": "erer",
+            "money": 1875,
+            "cardsImage": [
+                "https://deckofcardsapi.com/static/img/5D.png",
+                "https://deckofcardsapi.com/static/img/8S.png"
+            ],
+            "folded": false,
+            "turn": false
+        },
+        {
+            "id": 8,
+            "username": "dfdf",
+            "money": 2025,
+            "cardsImage": [],
+            "folded": true,
+            "turn": false
+        }
+    ]
 }

@@ -6,6 +6,7 @@ import tableImage from "./table_prov.jpg";
 import { User, TableType, Player,Game } from "types";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePageVisibility } from "helpers/usePageVisibility";
+import Confetti from "react-confetti";
 
 const Table = () => {
 
@@ -22,6 +23,8 @@ const Table = () => {
   const [player, setPlayer] = useState<Player | null>(null);  // Initially null
   const [game, setGame] = useState<Game | null>(null);  // Initially null
 
+  const [showConfetti, setShowConfetti] = useState(true);
+
   const navigate = useNavigate();
   const { userid } = useParams();
 
@@ -30,7 +33,7 @@ const Table = () => {
       setIsPollingEnabled(false)
       setTimeout(function() {
         navigate(`/lobby/${userid}`); // player.id is true but doesnt give much sense
-      }, 25000);
+      }, 15000);
     }
   }, [game && game.gameFinished]);
 
@@ -164,14 +167,22 @@ const Table = () => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
   }
 
+  function stopConfetti() {
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 10000);
+  }
+
   if (!table || !players || !player) {
     return <div>Loading...</div>; // Display loading state or spinner here
   }
   if(game.gameFinished){ //if game is finished show table the cards of the winning player and
+    stopConfetti();
     return(
       <div>
         <img className="background" src={tableImage} alt="table" />
         <div className="table-wrapper">
+          {game.winner.id === player.id && showConfetti && <Confetti />}
           <div className="table">
             <div className="table pot">
               <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
@@ -202,7 +213,7 @@ const Table = () => {
           {game.notFoldedPlayers
             .filter((enemy: Player) => enemy.id !== player.id)
             .map((enemy, index) => (
-              <div className={enemyPosition} key={enemy.id}>
+              <div className={enemyPosition(enemy)} key={enemy.id}>
                 <div className={enemy.id === game.winner.id ? "highlight-turn" : "enemy info"}>
                   {enemy.id === game.winner.id && <h1>WINNER</h1>}
                   <div className="enemy username">{enemy.username}</div>
