@@ -21,8 +21,6 @@ const Table = () => {
   const [players, setPlayers] = useState<Player[]>([]);  // Initialize as an empty array
   const [player, setPlayer] = useState<Player | null>(null);  // Initially null
   const [game, setGame] = useState<Game | null>(null);  // Initially null
-  
-  const [prevRaise] = useState(false);
 
   const navigate = useNavigate();
   const { userid } = useParams();
@@ -32,7 +30,7 @@ const Table = () => {
       setIsPollingEnabled(false)
       setTimeout(function() {
         navigate(`/lobby/${userid}`); // player.id is true but doesnt give much sense
-      }, 5000);
+      }, 25000);
     }
   }, [game && game.gameFinished]);
 
@@ -76,6 +74,22 @@ const Table = () => {
   }, [isPageVisible, isPollingEnabled]);
 
   /*api put body: {"move": ---, "ammount": ---} */
+
+  function enemyPosition(enemy) {
+    if (!player) return ''; // Guard clause if player is not defined yet
+    const enemyIndex = players.findIndex((p) => p.id === enemy.id);
+    const playerIndex = players.findIndex((p) => p.id === player.id);
+    const beforeIndex = 6; // Maximum for descending index
+    const afterIndex = 1; // Start for ascending index
+
+    if (enemyIndex < playerIndex) {
+      // Enemy is before player
+      return `pos${beforeIndex - (playerIndex - enemyIndex - 1)}`;
+    } else {
+      // Enemy is after player
+      return `pos${afterIndex + (enemyIndex - playerIndex - 1)}`;
+    }
+  }
 
   const call = async () => {
     try {
@@ -188,7 +202,7 @@ const Table = () => {
           {game.notFoldedPlayers
             .filter((enemy: Player) => enemy.id !== player.id)
             .map((enemy, index) => (
-              <div className={`pos${index + 1}`} key={enemy.id}>
+              <div className={enemyPosition} key={enemy.id}>
                 <div className={enemy.id === game.winner.id ? "highlight-turn" : "enemy info"}>
                   {enemy.id === game.winner.id && <h1>WINNER</h1>}
                   <div className="enemy username">{enemy.username}</div>
@@ -254,8 +268,8 @@ const Table = () => {
                 ) : (
                   <>
                     <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
-                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
+                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> {/*disable button if no raise: disabled={!player.turn || raiseAmmount  !==0}  */}
+                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>  {/*disable button if no raise: disabled={!player.turn || raiseAmmount  ==0}  */}
                     <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                   </>
                 )}
@@ -268,14 +282,15 @@ const Table = () => {
           {players
             .filter((enemy: Player) => enemy.id !== player.id)
             .map((enemy, index) => (
-              <div className={`pos${index + 1}`} key={enemy.id}>
+              //<div className={`pos${index + 1}`} key={enemy.id}>
+              <div className={enemyPosition(enemy)} key={enemy.id}>
                 <div className={enemy.turn ? "highlight-turn" : "enemy info"}>
                   <div className="enemy username">{enemy.username}</div>
                   <div className="enemy money">{formatMoney(enemy.money)}</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}
                 </div>
                 <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
-                  {/* Placeholder for backCards showing */}
+                  {/*{!enemy.folded ? backCards : <p>Fold</p>} */}
                   {backCards}
                 </div>
               </div>
