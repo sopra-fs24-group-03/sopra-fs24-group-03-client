@@ -33,7 +33,7 @@ const Table = () => {
       setIsPollingEnabled(false)
       setTimeout(function() {
         navigate(`/lobby/${userid}`); // player.id is true but doesnt give much sense
-      }, 15000);
+      }, 25000);
     }
   }, [game && game.gameFinished]);
 
@@ -170,7 +170,7 @@ const Table = () => {
   function stopConfetti() {
     setTimeout(() => {
       setShowConfetti(false);
-    }, 10000);
+    }, 25000);
   }
 
   if (!table || !players || !player) {
