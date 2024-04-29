@@ -2,29 +2,32 @@ import React, { useEffect, useState, useRef } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Lobby.scss";
 import { User } from "types";
 import { usePageVisibility } from "helpers/usePageVisibility";
 
-const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number}) => {
+const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; ownerId: Number }) => {
   const { userid } = useParams();
+  const navigate = useNavigate();
+
   async function remove(userToDeleteId) {
     try {
-      const response = await api.delete(`lobbies/${lobbyId}/remove${userToDeleteId}`);
-    }
-    catch (error) {
+      const response = await api.delete(`lobbies/${lobbyId}/remove/${userToDeleteId}`);
+    } catch (error) {
       alert(
-        `Something went wrong while deleting the User: \n${handleError(error)}`
+        `Something went wrong while deleting the User: \n${handleError(error)}`,
       );
     }
   }
 
   return (<div className="player container">
     <div className="player usernameMoney">{user.username}: {user.money}</div>
-    <button   style={{ visibility: userid === ownerId.toString() ? "visible" : "hidden" }} className="player remove" onClick={() => remove(user.id)}>X</button>
+    <button style={{ visibility: userid === ownerId.toString() ? "visible" : "hidden" }} className="player remove"
+            onClick={() => remove(user.id)}>X
+    </button>
   </div>);
 
 };
@@ -58,10 +61,9 @@ const Lobby = () => {
       const response = await api.delete("/lobbies");
       localStorage.removeItem("lobbyId");
       navigate(`/home/${userid}`);
-    }
-    catch (error) {
+    } catch (error) {
       alert(
-        `Something went wrong while leaving the lobby: \n${handleError(error)}`
+        `Something went wrong while leaving the lobby: \n${handleError(error)}`,
       );
     }
   }
@@ -72,10 +74,9 @@ const Lobby = () => {
     try {
       const response = await api.post(`/lobbies/${localStorage.getItem("lobbyId")}`); // create game
       navigate(`/table/${userid}`);
-    }
-    catch (error) {
+    } catch (error) {
       alert(
-        `Something went wrong while starting game: \n${handleError(error)}`
+        `Something went wrong while starting game: \n${handleError(error)}`,
       );
     }
   }
@@ -90,12 +91,13 @@ const Lobby = () => {
       async function fetchData() {
         try {
           const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
-          console.log(response)
-          if (response.data.game !== null && response.data.game.gameFinished === false){
-            navigate(`/table/${userid}`)
+          console.log(response);
+
+          if (response.data.game !== null && response.data.game.gameFinished === false) {
+            navigate(`/table/${userid}`);
           }
           await new Promise((resolve) => setTimeout(resolve, 100));
-          
+
 
           setUsers(response.data.lobbyUsers);
           setOwner(response.data.lobbyLeader); // need to be changed to response.owner
@@ -106,12 +108,12 @@ const Lobby = () => {
           localStorage.clear();
           console.error(
             `Something went wrong while fetching the users: \n${handleError(
-              error
-            )}`
+              error,
+            )}`,
           );
           console.error("Details:", error);
           alert(
-            "Something went wrong while fetching the users! See the console for details."
+            "Something went wrong while fetching the users! See the console for details.",
           );
         }
       }
@@ -155,16 +157,17 @@ const Lobby = () => {
             .filter((user: User) => user.id !== owner.id)
             .map((user: User, index: number) => ((
               <li key={user.id}>
-                <Player user={user} lobbyId={lobbyId} ownerId={owner.id}/>
+                <Player user={user} lobbyId={lobbyId} ownerId={owner.id} />
               </li>
             )))}
         </ul>
         <div className="game button-container">
           <Button className="button" width="50%" onClick={() => leaveLobby()}>Leave Table</Button>
-          <Button disabled={userid !== owner.id.toString() || Disabled} className="button" width="50%" onClick={() => startGame()}>Start Game</Button> {/* disable button */}
+          <Button disabled={userid !== owner.id.toString() || Disabled} className="button" width="50%"
+                  onClick={() => startGame()}>Start Game</Button> {/* disable button */}
         </div>
       </div>
-        
+
     );
   }
 
