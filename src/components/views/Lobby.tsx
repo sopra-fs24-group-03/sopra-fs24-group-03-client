@@ -109,6 +109,7 @@ const Lobby = () => {
             // 401 corresponds to HttpStatus.UNAUTHORIZED
             localStorage.removeItem("lobbyId");
             navigate(`/home/${userid}`);
+            alert("you have been kicked out of the lobby")
           } else {
             localStorage.clear();
             console.error(
