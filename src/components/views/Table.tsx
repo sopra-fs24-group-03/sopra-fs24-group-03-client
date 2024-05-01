@@ -314,9 +314,10 @@ const Table = () => {
                 ) : (
                   <>
                     <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                    {table.lastMoveAmount === 0 || table.money === 75 ?
-                      <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> :
-                      <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>  
+                    {table.lastMoveAmount !== 0 || table.money === 75 ?
+                      <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button> :
+                      <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
+                       
                     }
                     <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                   </>
