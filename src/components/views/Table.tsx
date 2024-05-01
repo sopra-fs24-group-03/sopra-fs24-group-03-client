@@ -15,7 +15,7 @@ const Table = () => {
   const [isPollingEnabled, setIsPollingEnabled] = useState(true);
 
   const gameId  = localStorage.getItem("lobbyId");
-  const [raiseAmount, setRaiseAmount] = useState(0);
+  const [raiseAmount, setRaiseAmount] = useState(null);
   const [showRaiseInput, setShowRaiseInput] = useState(false);
 
   const [table, setTable] = useState<TableType | null>(null);  // Initially null, set a proper structure once loaded
@@ -24,7 +24,7 @@ const Table = () => {
   const [game, setGame] = useState<Game | null>(null);  // Initially null
 
   const [showConfetti, setShowConfetti] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(30); // Default countdown time
+  const [timeLeft, setTimeLeft] = useState(1000); // Default countdown time
   const timerRef = useRef(null);
 
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ const Table = () => {
 
   const startCountdown = () => {
     if (timerRef.current) clearInterval(timerRef.current); // Clear existing timer if any
-    setTimeLeft(30); // Reset countdown to 15 seconds
+    setTimeLeft(1000); // Reset countdown to 15 seconds
     timerRef.current = setInterval(() => {
       setTimeLeft(prevTime => {
         if (prevTime === 1) { // If countdown reaches 1, execute fold and stop the timer
@@ -314,8 +314,10 @@ const Table = () => {
                 ) : (
                   <>
                     <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> {/*disable button if no raise: disabled={!player.turn || raiseAmmount  !==0}  */}
-                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>  {/*disable button if no raise: disabled={!player.turn || raiseAmmount  ==0}  */}
+                    {table.lastMoveAmount === 0 || table.money === 75 ?
+                      <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> :
+                      <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>  
+                    }
                     <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                   </>
                 )}
@@ -335,10 +337,16 @@ const Table = () => {
                   <div className="enemy money">{formatMoney(enemy.money)}</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}
                 </div>
-                <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
-                  {/*{!enemy.folded ? backCards : <p>Fold</p>} */}
-                  {backCards}
+                <div className="enemy overlay">
+                  <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                    {/*{!enemy.folded ? backCards : <p>Fold</p>} */}
+                    {backCards}
+                  </div>
+                  <div className="enemy action">
+                    {enemy.id === table.playerIdOfLastMove && <p>{table.lastMove}</p>}
+                  </div>
                 </div>
+                
               </div>
             ))}
         </div>

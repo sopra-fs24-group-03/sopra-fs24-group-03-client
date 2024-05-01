@@ -10,6 +10,9 @@ export type TableType = {
   money: number;
   openCardsImage: string[];
   prevRaise: number;
+  lastMoveAmount: number;
+  playerIdOfLastMove: string;
+  lastMove: string;
 };
 
 export type Player = {

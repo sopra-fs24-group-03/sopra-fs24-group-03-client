@@ -1,72 +1,117 @@
 {
-    "id": 2,
-    "currentBet": 0,
+    "id": 3,
+    "currentBet": 50,
     "players": [
         {
-            "id": 7,
-            "money": 1875,
-            "username": "erer",
+            "id": 1,
+            "money": 1975,
+            "username": "llolk",
             "folded": false,
             "turn": true
         },
         {
-            "id": 8,
-            "money": 2025,
-            "username": "dfdf",
-            "folded": true,
+            "id": 2,
+            "money": 1950,
+            "username": "hjhj",
+            "folded": false,
             "turn": false
         }
     ],
     "ownPlayer": {
-        "id": 7,
-        "username": "erer",
-        "money": 1875,
+        "id": 1,
+        "username": "llolk",
+        "money": 1975,
         "cardsImage": [
-            "https://deckofcardsapi.com/static/img/5D.png",
-            "https://deckofcardsapi.com/static/img/8S.png"
+            "https://deckofcardsapi.com/static/img/9S.png",
+            "https://deckofcardsapi.com/static/img/4C.png"
         ],
         "folded": false,
         "turn": true
     },
     "gameTable": {
-        "money": 100,
-        "id": 7,
-        "openCardsImage": [
-            "https://deckofcardsapi.com/static/img/0D.png",
-            "https://deckofcardsapi.com/static/img/8D.png",
-            "https://deckofcardsapi.com/static/img/2C.png"
-        ]
+        "money": 75,
+        "id": 4,
+        "openCardsImage": [],
+        "playerIdOfLastMove": 0,
+        "lastMove": null,
+        "lastMoveAmount": 0
     },
-    "gameFinished": true,
-    "winner": {
-        "id": 7,
-        "username": "erer",
-        "money": 1875,
-        "cardsImage": [
-            "https://deckofcardsapi.com/static/img/5D.png",
-            "https://deckofcardsapi.com/static/img/8S.png"
-        ],
-        "folded": false,
-        "turn": false
-    },
-    "notFoldedPlayers": [
+    "gameFinished": false,
+    "winner": null,
+    "notFoldedPlayers": []
+}
+
+endgame:
+{
+    "id": 7,
+    "currentBet": 100,
+    "players": [
         {
-            "id": 7,
-            "username": "erer",
-            "money": 1875,
-            "cardsImage": [
-                "https://deckofcardsapi.com/static/img/5D.png",
-                "https://deckofcardsapi.com/static/img/8S.png"
-            ],
-            "folded": false,
+            "id": 3,
+            "money": 1950,
+            "username": "klnmnm",
+            "folded": true,
             "turn": false
         },
         {
-            "id": 8,
-            "username": "dfdf",
-            "money": 2025,
+            "id": 4,
+            "money": 1900,
+            "username": "nmnm",
+            "folded": false,
+            "turn": true
+        }
+    ],
+    "ownPlayer": {
+        "id": 3,
+        "username": "klnmnm",
+        "money": 1950,
+        "cardsImage": [
+            "https://deckofcardsapi.com/static/img/KC.png",
+            "https://deckofcardsapi.com/static/img/7C.png"
+        ],
+        "folded": true,
+        "turn": false
+    },
+    "gameTable": {
+        "money": 150,
+        "id": 8,
+        "openCardsImage": [],
+        "playerIdOfLastMove": 3,
+        "lastMove": "Fold",
+        "lastMoveAmount": 0
+    },
+    "gameFinished": true,
+    "winner": [
+        {
+            "id": 4,
+            "username": "nmnm",
+            "money": 1900,
+            "cardsImage": [
+                "https://deckofcardsapi.com/static/img/KS.png",
+                "https://deckofcardsapi.com/static/img/9S.png"
+            ],
+            "folded": false,
+            "turn": false
+        }
+    ],
+    "notFoldedPlayers": [
+        {
+            "id": 3,
+            "username": "klnmnm",
+            "money": 1950,
             "cardsImage": [],
             "folded": true,
+            "turn": false
+        },
+        {
+            "id": 4,
+            "username": "nmnm",
+            "money": 1900,
+            "cardsImage": [
+                "https://deckofcardsapi.com/static/img/KS.png",
+                "https://deckofcardsapi.com/static/img/9S.png"
+            ],
+            "folded": false,
             "turn": false
         }
     ]

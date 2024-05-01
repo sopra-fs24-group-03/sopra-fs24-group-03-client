@@ -171,6 +171,26 @@
 
 .enemy {
 
+  &.overlay {
+    position: relative; /* This makes it the positioning context for its children */
+  }
+
+  &.action {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: yellow;
+    font-size: 175%;
+    z-index: 2;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1); /* Black shadow for contrast */
+    padding: 1px;
+    width: max-content; /* Ensure the background extends to fit content */
+    max-width: 100%; /* Prevent overflow */
+    text-align: center;
+  }
+
   &.info{
     display: flex;
     flex-direction: column;
