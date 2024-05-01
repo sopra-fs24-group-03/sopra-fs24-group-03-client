@@ -24,6 +24,8 @@ const Table = () => {
   const [game, setGame] = useState<Game | null>(null);  // Initially null
 
   const [showConfetti, setShowConfetti] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(30); // Default countdown time
+  const timerRef = useRef(null);
 
   const navigate = useNavigate();
   const { userid } = useParams();
@@ -76,10 +78,20 @@ const Table = () => {
     };
   }, [isPageVisible, isPollingEnabled]);
 
+  useEffect(() => {
+    if (player && player.turn && !player.folded) {
+      startCountdown();
+    } else {
+      if (timerRef.current) clearInterval(timerRef.current); // Clear timer if it's not player's turn or they have folded
+    }
+    
+    return () => clearInterval(timerRef.current); // Cleanup on component unmount
+  }, [player?.turn, player?.folded]);
+
   /*api put body: {"move": ---, "ammount": ---} */
 
   function enemyPosition(enemy) {
-    if (!player) return ''; // Guard clause if player is not defined yet
+    if (!player) return ""; // Guard clause if player is not defined yet
     const enemyIndex = players.findIndex((p) => p.id === enemy.id);
     const playerIndex = players.findIndex((p) => p.id === player.id);
     const beforeIndex = 6; // Maximum for descending index
@@ -93,6 +105,23 @@ const Table = () => {
       return `pos${afterIndex + (enemyIndex - playerIndex - 1)}`;
     }
   }
+
+  const startCountdown = () => {
+    if (timerRef.current) clearInterval(timerRef.current); // Clear existing timer if any
+    setTimeLeft(30); // Reset countdown to 15 seconds
+    timerRef.current = setInterval(() => {
+      setTimeLeft(prevTime => {
+        if (prevTime === 1) { // If countdown reaches 1, execute fold and stop the timer
+          fold();
+          clearInterval(timerRef.current);
+
+          return 0; // Reset timer to 0 as final step
+        }
+
+        return prevTime - 1;
+      });
+    }, 1000);
+  };
 
   const call = async () => {
     try {
@@ -178,6 +207,7 @@ const Table = () => {
   }
   if(game.gameFinished){ //if game is finished show table the cards of the winning player and
     stopConfetti();
+
     return(
       <div>
         <img className="background" src={tableImage} alt="table" />
@@ -253,6 +283,11 @@ const Table = () => {
           </div>
           <div className="player-wrapper">
             <div className="table-player">
+              <div className="countdown" >
+                {
+                  player.turn && !player.folded && <h3>Timer: {timeLeft}</h3>
+                }
+              </div>
               <div className={player.turn ? "highlight-turn" :"table-player money"}>
                 <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
               </div>
