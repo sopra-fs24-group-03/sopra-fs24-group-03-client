@@ -116,3 +116,5 @@ endgame:
         }
     ]
 }
+
+lobby/home:

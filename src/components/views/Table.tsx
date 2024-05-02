@@ -35,7 +35,7 @@ const Table = () => {
       setIsPollingEnabled(false)
       setTimeout(function() {
         navigate(`/lobby/${userid}`); // player.id is true but doesnt give much sense
-      }, 25000);
+      }, 20000);
     }
   }, [game && game.gameFinished]);
 
@@ -199,7 +199,7 @@ const Table = () => {
   function stopConfetti() {
     setTimeout(() => {
       setShowConfetti(false);
-    }, 25000);
+    }, 20000);
   }
 
   if (!table || !players || !player) {
@@ -207,63 +207,119 @@ const Table = () => {
   }
   if(game.gameFinished){ //if game is finished show table the cards of the winning player and
     stopConfetti();
-
-    return(
-      <div>
-        <img className="background" src={tableImage} alt="table" />
-        <div className="table-wrapper">
-          {game.winner.id === player.id && showConfetti && <Confetti />}
-          <div className="table">
-            <div className="table pot">
-              <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
-            </div>
-            <div className="table cards-container">
-              {table?.openCardsImage?.length > 0 ? (
-                table.openCardsImage.map((card, index) => (
-                  <img key={index} className="table card" src={card} alt={`Card ${index}`} />
-                ))
-              ) : <p>No cards on table</p>}
-            </div>
-          </div>
-          <div className="player-wrapper">
-            <div className="table-player">
-              <div className={player.id === game.winner.id ? "highlight-turn" :"table-player money"}>
-                {player.id === game.winner.id && <h1>WINNER</h1>}
-                <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+    if(game.winner.length === 1){ //if there is only one winner
+      return(
+        <div>
+          <img className="background" src={tableImage} alt="table" />
+          <div className="table-wrapper">
+            {game.winner[0].id === player.id && showConfetti && <Confetti />}
+            <div className="table">
+              <div className="table pot">
+                <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
               </div>
-
-              <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
-                {playerCards}
+              <div className="table cards-container">
+                {table?.openCardsImage?.length > 0 ? (
+                  table.openCardsImage.map((card, index) => (
+                    <img key={index} className="table card" src={card} alt={`Card ${index}`} />
+                  ))
+                ) : <p>No cards on table</p>}
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="enemy">
-          {game.notFoldedPlayers
-            .filter((enemy: Player) => enemy.id !== player.id)
-            .map((enemy, index) => (
-              <div className={enemyPosition(enemy)} key={enemy.id}>
-                <div className={enemy.id === game.winner.id ? "highlight-turn" : "enemy info"}>
-                  {enemy.id === game.winner.id && <h1>WINNER</h1>}
-                  <div className="enemy username">{enemy.username}</div>
-                  <div className="enemy money">{formatMoney(enemy.money)}</div>
-                  {enemy.fold && <div className="enemy fold-status">Fold</div>}
+            <div className="player-wrapper">
+              <div className="table-player">
+                <div className={player.id === game.winner[0].id ? "highlight-turn" :"table-player money"}>
+                  {player.id === game.winner[0].id && <h1>WINNER</h1>}
+                  <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
                 </div>
-                <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
-                  {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
-                    <>
-                      {enemy.cardsImage.map((card, index) => (
-                        <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
-                      ))}
-                    </>
-                  ) : <p>No cards</p>}
+
+                <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
+                  {playerCards}
                 </div>
               </div>
-            ))}
+            </div>
+          </div>
+
+          <div className="enemy">
+            {game.notFoldedPlayers
+              .filter((enemy: Player) => enemy.id !== player.id)
+              .map((enemy, index) => (
+                <div className={enemyPosition(enemy)} key={enemy.id}>
+                  <div className={enemy.id === game.winner[0].id ? "highlight-turn" : "enemy info"}>
+                    {enemy.id === game.winner[0].id && <h1>WINNER</h1>}
+                    <div className="enemy username">{enemy.username}</div>
+                    <div className="enemy money">{formatMoney(enemy.money)}</div>
+                    {enemy.fold && <div className="enemy fold-status">Fold</div>}
+                  </div>
+                  <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                    {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
+                      <>
+                        {enemy.cardsImage.map((card, index) => (
+                          <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
+                        ))}
+                      </>
+                    ) : <p>No cards</p>}
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else { //if there is a draw
+      return(
+        <div>
+          <img className="background" src={tableImage} alt="table" />
+          <div className="table-wrapper">
+            <div className="table">
+              <div className="table pot">
+                <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
+              </div>
+              <div className="table cards-container">
+                {table?.openCardsImage?.length > 0 ? (
+                  table.openCardsImage.map((card, index) => (
+                    <img key={index} className="table card" src={card} alt={`Card ${index}`} />
+                  ))
+                ) : <p>No cards on table</p>}
+              </div>
+            </div>
+            <div className="player-wrapper">
+              <div className="table-player">
+                <div className={"highlight-turn"}>
+                  {<h1>DRAW</h1>}
+                  <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+                </div>
+
+                <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
+                  {playerCards}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="enemy">
+            {game.notFoldedPlayers
+              .filter((enemy: Player) => enemy.id !== player.id)
+              .map((enemy, index) => (
+                <div className={enemyPosition(enemy)} key={enemy.id}>
+                  <div className={"enemy info"}>
+                    <div className="enemy username">{enemy.username}</div>
+                    <div className="enemy money">{formatMoney(enemy.money)}</div>
+                    {enemy.fold && <div className="enemy fold-status">Fold</div>}
+                  </div>
+                  <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                    {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
+                      <>
+                        {enemy.cardsImage.map((card, index) => (
+                          <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
+                        ))}
+                      </>
+                    ) : <p>No cards</p>}
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      );
+    }
   } else {
     return (
       <div>
@@ -314,11 +370,13 @@ const Table = () => {
                 ) : (
                   <>
                     <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                    {table.lastMoveAmount !== 0 || table.money === 75 ?
+                    {/* {table.lastMoveAmount !== 0 || table.money === 75 ?
                       <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button> :
                       <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
                        
-                    }
+                    } */}
+                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
+                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
                     <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                   </>
                 )}

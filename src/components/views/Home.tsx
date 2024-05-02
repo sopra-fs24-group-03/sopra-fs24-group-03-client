@@ -166,7 +166,9 @@ const Userdisplay = () => {
           </div>
           <div className="user item">
             <div className="label">Reloads</div> 
-            <div className="value">0</div>
+            <div className="value">
+              {user.tries}
+            </div>
           </div>
           <Button className="button" width="35%"  onClick={() => logout()}>Quit</Button>
         </div>

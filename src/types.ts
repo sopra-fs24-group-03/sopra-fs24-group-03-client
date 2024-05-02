@@ -3,6 +3,7 @@ export type User = {
   name: string;
   id: number;
   money: number;
+  tries: number;
 };
 
 export type TableType = {
@@ -27,7 +28,7 @@ export type Player = {
 export type Game = {
   id:number;
   gameFinished:boolean;
-  winner:Player;
+  winner:Player[];
   notFoldedPlayers:Player[];
 };
 

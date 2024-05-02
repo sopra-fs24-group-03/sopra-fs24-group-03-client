@@ -25,8 +25,9 @@ const Player = ({ user, lobbyId, ownerId }: { user: User; lobbyId: Number; owner
 
   return (<div className="player container">
     <div className="player usernameMoney">{user.username}: {user.money}</div>
+    <div className="player tries">{user.tries} Reloads</div>
     <button style={{ visibility: userid === ownerId.toString() ? "visible" : "hidden" }} className="player remove"
-            onClick={() => remove(user.id)}>X
+      onClick={() => remove(user.id)}>X
     </button>
   </div>);
 
@@ -159,6 +160,9 @@ const Lobby = () => {
         <ul className="game user-list">
           <div className="player container">
             <div className="player owner">{owner.username}: {owner.money}</div>
+            <div className="player tries">{owner.tries} Reloads</div>
+            <button style={{ visibility:"hidden" }} className="player remove">X
+            </button>
           </div>
           {users
             .filter((user: User) => user.id !== owner.id)
@@ -171,7 +175,7 @@ const Lobby = () => {
         <div className="game button-container">
           <Button className="button" width="50%" onClick={() => leaveLobby()}>Leave Table</Button>
           <Button disabled={userid !== owner.id.toString() || Disabled} className="button" width="50%"
-                  onClick={() => startGame()}>Start Game</Button> {/* disable button */}
+            onClick={() => startGame()}>Start Game</Button> {/* disable button */}
         </div>
       </div>
 

@@ -88,6 +88,7 @@ h1{
 
     
   }
+  
 
   .value {
     margin: 0.5em 0;
@@ -99,6 +100,8 @@ h1{
     background: rgb(165, 167, 165);
     margin-top: 5px; /* Add spacing between label and value */
     height: 43px;
+
+    
   }
   &.container {
     background: $background;
