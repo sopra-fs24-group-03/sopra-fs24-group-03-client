@@ -1,4 +1,7 @@
 
+.draw{
+  height: 3vh;
+}
 
 .countdown{
   height: 5vh;
@@ -180,11 +183,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: yellow;
-    font-size: 175%;
+    color: #FFFF00;
+    font-size: 160%;
     z-index: 2;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1); /* Black shadow for contrast */
+    -webkit-text-stroke: 1px black; /* Add black outline */
+    text-shadow: 0 0 10px #FFFF00, 0 0 20px #FFFF00, 0 0 30px #FFFF00, 0 0 40px #FFFF00; /* Yellow glow */
     padding: 1px;
     width: max-content; /* Ensure the background extends to fit content */
     max-width: 100%; /* Prevent overflow */

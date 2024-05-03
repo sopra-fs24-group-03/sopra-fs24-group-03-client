@@ -30,12 +30,14 @@ const Table = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
 
+  const gameTime = 50000; // 5 seconds
+
   useEffect(() => {
     if(game && game.gameFinished){
       setIsPollingEnabled(false)
       setTimeout(function() {
         navigate(`/lobby/${userid}`); // player.id is true but doesnt give much sense
-      }, 20000);
+      }, gameTime);
     }
   }, [game && game.gameFinished]);
 
@@ -199,7 +201,7 @@ const Table = () => {
   function stopConfetti() {
     setTimeout(() => {
       setShowConfetti(false);
-    }, 20000);
+    }, gameTime);
   }
 
   if (!table || !players || !player) {
@@ -253,9 +255,7 @@ const Table = () => {
                   <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
                     {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
                       <>
-                        {enemy.cardsImage.map((card, index) => (
-                          <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
-                        ))}
+                        {backCards}
                       </>
                     ) : <p>No cards</p>}
                   </div>
@@ -280,11 +280,13 @@ const Table = () => {
                   ))
                 ) : <p>No cards on table</p>}
               </div>
+              <div className="draw">
+                <h1>Draw, pot split in {game.winner.length}</h1>
+              </div>
             </div>
             <div className="player-wrapper">
               <div className="table-player">
                 <div className={"highlight-turn"}>
-                  {<h1>DRAW</h1>}
                   <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
                 </div>
 
@@ -402,7 +404,7 @@ const Table = () => {
                     {backCards}
                   </div>
                   <div className="enemy action">
-                    {enemy.id === table.playerIdOfLastMove && <p>{table.lastMove}</p>}
+                    {enemy.id === table.playerIdOfLastMove && <p>{table.lastMove === "Raise" ? `Raise to ${table.lastMoveAmount}` : table.lastMove}</p>}
                   </div>
                 </div>
                 
