@@ -143,22 +143,7 @@ const Userdisplay = () => {
           <h1>Profile</h1>
           <div className="user item">
             <div className="label">Username: </div>
-            <div className="data">
-              {editingUsername ? (
-                <input className="input" width="50%" type="text" placeholder="Set new name"
-                  value={username}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                />
-              ) : (
-                <div className="value">{user.username}</div>
-              )}
-              
-              {(
-                <Button className="edit" onClick={editingUsername ? editUser : handleEditClick}>
-                  {editingUsername ? "Save" : "Edit"}
-                </Button>
-              )}
-            </div>
+            <div className="value">{user.username}</div>
           </div>
           <div className="user item">
             <div className="label">Credits</div> 

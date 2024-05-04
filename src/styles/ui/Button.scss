@@ -2,8 +2,11 @@
 
 .primary-button {
   &:hover {
-    transform: translateY(-2px);
-  }
+    scale: 1.1;
+    
+    background-color: rgb(91, 197, 91);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
   &:disabled {
     cursor: default;
     opacity: 0.4;
@@ -21,7 +24,7 @@
   border-radius: $borderRadius;
   cursor: pointer;
   opacity: 1;
-  color: $background;
+  color: $buttonColor;
   background-color: $accent;
   transition: all 0.3s ease;
 }

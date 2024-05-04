@@ -29,7 +29,7 @@ h1{
   font-size: 16px;
   height: 45px;
   width: 200px;
-  color: white;
+  color: $buttonColor;
 }
 
 .edit {
@@ -61,7 +61,7 @@ h1{
     width: 15em;
     padding: 10px;
     border-radius: $borderRadius;
-    background: lightgray;
+    background: rgb(228, 227, 227);
     margin-top: 5px; /* Add spacing between label and value */
     margin-bottom: 20px;
   }
@@ -97,7 +97,7 @@ h1{
     width: 20em;
     padding: 10px;
     border-radius: $borderRadius;
-    background: rgb(165, 167, 165);
+    background: rgb(195, 197, 195);
     margin-top: 5px; /* Add spacing between label and value */
     height: 43px;
 
