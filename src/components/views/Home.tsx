@@ -43,20 +43,6 @@ const Userdisplay = () => {
   const token = localStorage.getItem("token");
 
 
-  const editUser = async () => {
-    try {
-      const requestBody = JSON.stringify({username});
-      const response = await api.put(`/users/${userid}`, requestBody);
-      
-      //reload the page
-      window.location.reload();
-      
-    } catch (error) {
-      alert(
-        `Something went wrong during the username edit: \n${handleError(error)}`
-      );
-    }
-  };
 
   const logout = async () => {
     try {
@@ -70,6 +56,7 @@ const Userdisplay = () => {
     }
     localStorage.clear();
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/login");
   };
 

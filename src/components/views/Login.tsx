@@ -52,6 +52,7 @@ const Login = () => {
       
       // Store the token into the local storage.
       localStorage.setItem("token", user.token); 
+      localStorage.setItem("userId", user.id); //store the user id in the local storage (needed for the GameRouter
 
       // Login successfully worked --> navigate to the route /home in the GameRouter
       navigate(`/home/${user.id}`);
@@ -73,6 +74,7 @@ const Login = () => {
 
       // Store the token into the local storage.
       localStorage.setItem("token", user.token);
+      localStorage.setItem("userId", user.id); //store the user id in the local storage (needed for the GameRouter
 
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
