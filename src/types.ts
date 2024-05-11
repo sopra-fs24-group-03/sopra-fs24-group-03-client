@@ -6,9 +6,16 @@ export type User = {
   tries: number;
 };
 
-export type TableType = {
+export type Pot = {
   id: number;
   money: number;
+  name: string;
+  eligiblePlayers: Player[];
+};
+
+export type TableType = {
+  id: number;
+  pots: Pot[];
   openCardsImage: string[];
   prevRaise: number;
   lastMoveAmount: number;
@@ -23,6 +30,7 @@ export type Player = {
   folded: boolean;
   turn: boolean;
   cardsImage:string[];
+  allIn: boolean;
 };
 
 export type Game = {

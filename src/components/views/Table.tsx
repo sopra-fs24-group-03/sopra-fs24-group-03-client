@@ -3,7 +3,7 @@ import { api, handleError } from "helpers/api";
 import "styles/views/Table.scss";
 import "../../styles/views/Header.scss";
 import tableImage from "./table_prov.jpg";
-import { User, TableType, Player,Game } from "types";
+import { User, TableType, Player,Game, Pot } from "types";
 import { useNavigate, useParams } from "react-router-dom";
 import { usePageVisibility } from "helpers/usePageVisibility";
 import Confetti from "react-confetti";
@@ -22,6 +22,9 @@ const Table = () => {
   const [players, setPlayers] = useState<Player[]>([]);  // Initialize as an empty array
   const [player, setPlayer] = useState<Player | null>(null);  // Initially null
   const [game, setGame] = useState<Game | null>(null);  // Initially null
+  const [pots, setPots] = useState<Pot[]>([]);  // Initially null
+  const [mainPot, setMainPot] = useState<Pot | null>(null);  // Initially null
+
 
   const [showConfetti, setShowConfetti] = useState(true);
   const [timeLeft, setTimeLeft] = useState(1000); // Default countdown time
@@ -30,7 +33,7 @@ const Table = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
 
-  const gameTime = 50000; // 5 seconds
+  const gameTime = 10000; // 5 seconds
 
   useEffect(() => {
     if(game && game.gameFinished){
@@ -51,7 +54,16 @@ const Table = () => {
           setPlayers(tableResp.data.players)
           setTable(tableResp.data.gameTable)
           setGame(tableResp.data)
-          //tableFiller();
+          setPots(tableResp.data.gameTable.pots)
+
+          // Find and set the mainPot
+          for(let i = 0; i < tableResp.data.gameTable.pots.length; i++) {
+            if(tableResp.data.gameTable.pots[i].name === "mainPot") {
+              setMainPot(tableResp.data.gameTable.pots[i]);
+              break;
+            }
+          }
+          
         } catch (error) {
           alert(`Something went wrong while fetching the user: \n${error}`);
         }
@@ -228,7 +240,7 @@ const Table = () => {
               </div>
             </div>
             <div className="player-wrapper">
-              <div className="table-player">
+              <div className="table-player win">
                 <div className={player.id === game.winner[0].id ? "highlight-turn" :"table-player money"}>
                   {player.id === game.winner[0].id && <h1>WINNER</h1>}
                   <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
@@ -255,7 +267,9 @@ const Table = () => {
                   <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
                     {enemy.cardsImage && enemy.cardsImage.length > 0 ? (
                       <>
-                        {backCards}
+                        {enemy.cardsImage.map((card, index) => (
+                          <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
+                        ))}
                       </>
                     ) : <p>No cards</p>}
                   </div>
@@ -322,15 +336,25 @@ const Table = () => {
         </div>
       );
     }
-  } else {
+  } else { // game playing
     return (
       <div>
         <img className="background" src={tableImage} alt="table" />
         <div className="table-wrapper">
           <div className="table">
-            <div className="table pot">
-              <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
+            <div className="table-pots">
+              <div className="main-pot">
+                <h1>Main Pot: {mainPot?.money || 0}</h1>
+              </div>
+              {pots.filter(pot => pot.name !== "mainPot").map((pot, index) => (
+                <div className={`side-pot p${(index % 2) + 1}`} key={pot.id}>
+                  <h1>SP {index + 1}: {pot.money}</h1>
+                </div>
+              ))}
+              {pots.filter(pot => pot.name !== "mainPot").length % 2 !== 0 && <div className="invisible-pot"></div>}
             </div>
+
+
             <div className="table cards-container" >
               {table?.openCardsImage?.length > 0 ? (
                 table.openCardsImage.map((card, index) => (
@@ -395,7 +419,7 @@ const Table = () => {
               <div className={enemyPosition(enemy)} key={enemy.id}>
                 <div className={enemy.turn ? "highlight-turn" : "enemy info"}>
                   <div className="enemy username">{enemy.username}</div>
-                  <div className="enemy money">{formatMoney(enemy.money)}</div>
+                  <div className="enemy money">{formatMoney(enemy.money)} $</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}
                 </div>
                 <div className="enemy overlay">
@@ -404,7 +428,13 @@ const Table = () => {
                     {backCards}
                   </div>
                   <div className="enemy action">
-                    {enemy.id === table.playerIdOfLastMove && <p>{table.lastMove === "Raise" ? `Raise to ${table.lastMoveAmount}` : table.lastMove}</p>}
+                    {enemy.allIn ? 
+                      <p style={{ color: "red" }}>All In</p>:
+                      (enemy.id === table.playerIdOfLastMove && <p>
+                        {table.lastMove === "Raise" ? `Raise ${table.lastMoveAmount}` : table.lastMove}</p>
+                      )
+                    }
+
                   </div>
                 </div>
                 
