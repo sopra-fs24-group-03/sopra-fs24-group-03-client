@@ -216,6 +216,24 @@ const Table = () => {
     }, gameTime);
   }
 
+  function playerProfit(player) {
+    let profitText;
+    let color;
+
+    if(player.profit > 0){
+      profitText = `Profit: ${formatMoney(player.profit)}`;
+      color = "yellow";
+    } else if(player.profit < 0){
+      profitText = `Loss: ${formatMoney(player.profit)}`;
+      color = "red";
+    } else {
+      profitText = "Break even";
+      color = "black";
+    }
+
+    return <h1 style={{color: color}}>{profitText}</h1>;
+  }
+
   if (!table || !players || !player) {
     return <div>Loading...</div>; // Display loading state or spinner here
   }
@@ -243,7 +261,7 @@ const Table = () => {
               <div className="table-player win">
                 <div className={player.id === game.winner[0].id ? "highlight-turn" :"table-player money"}>
                   {player.id === game.winner[0].id && <h1>WINNER</h1>}
-                  <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+                  {playerProfit(player)}
                 </div>
 
                 <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
@@ -301,7 +319,7 @@ const Table = () => {
             <div className="player-wrapper">
               <div className="table-player">
                 <div className={"highlight-turn"}>
-                  <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+                  {playerProfit(player)}
                 </div>
 
                 <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
