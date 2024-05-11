@@ -1,49 +1,113 @@
 {
     "id": 4,
-    "moneyInPot": 0,
+    "currentBet": 0,
     "players": [
         {
-            "id": 1,
-            "money": 1950,
-            "username": "linus",
+            "id": 4,
+            "money": 0,
+            "username": "player2",
             "folded": false,
-            "turn": false
+            "turn": false,
+            "allIn": true
         },
         {
-            "id": 2,
-            "money": 1950,
-            "username": "hans",
+            "id": 5,
+            "money": 1150,
+            "username": "player3",
             "folded": false,
-            "turn": false
+            "turn": true,
+            "allIn": false
         },
         {
-            "id": 3,
-            "money": 1950,
-            "username": "peter",
+            "id": 6,
+            "money": 500,
+            "username": "player1",
             "folded": false,
-            "turn": true
+            "turn": false,
+            "allIn": false
         }
     ],
     "ownPlayer": {
-        "id": 1,
-        "username": "linus",
-        "money": 1950,
+        "id": 6,
+        "username": "player1",
+        "money": 500,
+        "profit": 0,
         "cardsImage": [
-            "https://deckofcardsapi.com/static/img/AC.png",
-            "https://deckofcardsapi.com/static/img/9C.png"
+            "https://deckofcardsapi.com/static/img/4H.png",
+            "https://deckofcardsapi.com/static/img/0H.png"
         ],
         "folded": false,
-        "turn": false
+        "turn": false,
+        "allIn": false
     },
     "gameTable": {
-        "money": 150,
-        "id": 5,
-        "prevRaise": 100,
+        "pots": [
+            {
+                "id": 8,
+                "money": 0,
+                "name": "mainPot",
+                "eligiblePlayers": [
+                    {
+                        "id": 5,
+                        "money": 1150,
+                        "username": "player3",
+                        "folded": false,
+                        "turn": false,
+                        "allIn": false
+                    },
+                    {
+                        "id": 6,
+                        "money": 500,
+                        "username": "player1",
+                        "folded": false,
+                        "turn": false,
+                        "allIn": false
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "money": 4350,
+                "name": "sidepot1",
+                "eligiblePlayers": [
+                    {
+                        "id": 4,
+                        "money": 0,
+                        "username": "player2",
+                        "folded": false,
+                        "turn": false,
+                        "allIn": true
+                    },
+                    {
+                        "id": 5,
+                        "money": 1150,
+                        "username": "player3",
+                        "folded": false,
+                        "turn": false,
+                        "allIn": false
+                    },
+                    {
+                        "id": 6,
+                        "money": 500,
+                        "username": "player1",
+                        "folded": false,
+                        "turn": false,
+                        "allIn": false
+                    }
+                ]
+            }
+        ],
+        "id": 7,
         "openCardsImage": [
-            "https://deckofcardsapi.com/static/img/4H.png",
-            "https://deckofcardsapi.com/static/img/9S.png",
-            "https://deckofcardsapi.com/static/img/5C.png"
-        ]
+            "https://deckofcardsapi.com/static/img/KD.png",
+            "https://deckofcardsapi.com/static/img/7S.png",
+            "https://deckofcardsapi.com/static/img/KS.png"
+        ],
+        "playerIdOfLastMove": 6,
+        "lastMove": "Call",
+        "lastMoveAmount": 0
     },
-    "gameFinished": false
+    "gameFinished": false,
+    "winner": null,
+    "notFoldedPlayers": []
 }

@@ -1,5 +1,49 @@
+.table-pots {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Spread items evenly */
+  align-items: center;
+  width: 100%; /* Ensure the container spans the full width */
+  gap: 3em;
+}
 
+.main-pot {
+  order: 2; /* Center order */
+  flex: 1; /* Allows the main pot to take up proportional space */
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.5em;
+  font-weight: bold;
+  flex-basis: 50%;
+}
 
+.side-pot {
+  flex: 1; /* Each side pot also takes up equal space */
+  text-align: center;
+  font-size: 0.75em;
+  color: #cccccc;
+  
+  &.p1{
+    order: 3; /* Ensures that this is always on the left */
+  }
+  &.p2{
+    order: 1; /* Ensures that this is always on the right */
+  
+  }
+}
+
+.invisible-pot {
+  visibility: hidden; /* Makes the pot invisible but still takes up space */
+  flex: 1;
+}
+
+.draw{
+  height: 3vh;
+}
+
+.countdown{
+  height: 5vh;
+}
 
 .background {
   position: absolute;
@@ -35,7 +79,7 @@
   flex-direction: column;
   justify-content: flex-start; // Changed to flex-start to keep items at the top
   align-items: center;
-  
+
   &.cards-container {
     flex-direction: row;
     justify-content: center;
@@ -67,6 +111,10 @@
   flex-direction: column;
   justify-content: flex-start; // Changed to flex-start to keep items at the top
   align-items: center;  
+
+  &.win{
+    margin-bottom: 32%;
+  }
 
   &.money{
     display: flex;
@@ -168,6 +216,27 @@
 
 .enemy {
 
+  &.overlay {
+    position: relative; /* This makes it the positioning context for its children */
+  }
+
+  &.action {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFF00;
+    font-size: 160%;
+    z-index: 2;
+    font-weight: bold;
+    -webkit-text-stroke: 1px black; /* Add black outline */
+    //text-shadow: 0 0 10px #FFFF00, 0 0 20px #FFFF00, 0 0 30px #FFFF00, 0 0 40px #FFFF00; /* Yellow glow */
+    padding: 1px;
+    width: max-content; /* Ensure the background extends to fit content */
+    max-width: 100%; /* Prevent overflow */
+    text-align: center;
+  }
+
   &.info{
     display: flex;
     flex-direction: column;
@@ -213,31 +282,31 @@
     left: 20%;
   }
 
-  .pos2{
+  .pos6{
     position: absolute;
     bottom: 15%;
     right: 21%;
   }
 
-  .pos3{
+  .pos2{
     position: absolute;
     bottom: 42%;
     left: 10%;
   }
 
-  .pos4{
+  .pos5{
     position: absolute;
     bottom: 42%;
     right: 10%;
   }
 
-  .pos5{
+  .pos3{
     position: absolute;
     top: 15%;
     left: 20%;
   }
 
-  .pos6{
+  .pos4{
     position: absolute;
     top: 15%;
     right: 21%;

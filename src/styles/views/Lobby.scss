@@ -44,9 +44,9 @@
   &.container {
     @include center;
     position: absolute;
-    top: 50%;
+    top: 10%;
     left: 50%;
-    transform: translate(-30%, -105%);
+    transform: translateX(-45%);
     background: $background;
     padding: 1.5em;
     border-radius: $borderRadius;
@@ -72,6 +72,8 @@
 }
 
 .player {
+
+  
   &.container {
     margin: 0.5em 0;
     width: 20em;
@@ -89,9 +91,8 @@
     font-weight: 500;
     color: $accent;
   }
-  &.id {
+  &.tries {
     margin-left: auto;
-    margin-right: 10px;
     font-family: $fontMono;
     font-weight: 299;
   }

@@ -3,13 +3,24 @@ export type User = {
   name: string;
   id: number;
   money: number;
+  tries: number;
+};
+
+export type Pot = {
+  id: number;
+  money: number;
+  name: string;
+  eligiblePlayers: Player[];
 };
 
 export type TableType = {
   id: number;
-  money: number;
+  pots: Pot[];
   openCardsImage: string[];
   prevRaise: number;
+  lastMoveAmount: number;
+  playerIdOfLastMove: string;
+  lastMove: string;
 };
 
 export type Player = {
@@ -19,12 +30,13 @@ export type Player = {
   folded: boolean;
   turn: boolean;
   cardsImage:string[];
+  allIn: boolean;
 };
 
 export type Game = {
   id:number;
   gameFinished:boolean;
-  winner:Player;
+  winner:Player[];
   notFoldedPlayers:Player[];
 };
 

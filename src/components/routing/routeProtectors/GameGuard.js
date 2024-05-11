@@ -1,22 +1,27 @@
 import React from "react";
-import {Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 
 /**
- * routeProtectors interfaces can tell the router whether or not it should allow navigation to a requested route.
+ * RouteProtectors interfaces can tell the router whether or not it should allow navigation to a requested route.
  * They are functional components. Based on the props passed, a route gets rendered.
- * In this case, if the user is authenticated (i.e., a token is stored in the local storage)
- * <Outlet /> is rendered --> The content inside the <GameGuard> in the App.js file, i.e. the user is able to access the main app.
- * If the user isn't authenticated, the components redirects to the /login screen
+ * This guard checks if the user is authenticated (i.e., both a token and a userId are stored in local storage)
+ * If both are present, <Outlet /> is rendered, allowing the user to access the protected content.
+ * If either is missing, the component redirects to the /login screen.
  * @Guard
  * @param props
  */
 export const GameGuard = () => {
-  if (localStorage.getItem("token")) {
-    
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+
+  // Check both token and userId to confirm user authentication
+  if (token && userId) {
+    // User is authenticated; allow access to route's component
     return <Outlet />;
   }
-  
+
+  // Redirect to login if either token or userId is missing
   return <Navigate to="/login" replace />;
 };
 

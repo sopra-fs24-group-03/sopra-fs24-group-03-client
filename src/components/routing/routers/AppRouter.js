@@ -2,14 +2,12 @@ import React from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {GameGuard} from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
+import {TableGuard} from "../routeProtectors/TableGuard";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
-import Register from "../../views/Register";
 import Home from "../../views/Home";
 import Lobby from "../../views/Lobby";
 import Table from "../../views/Table";
-
-
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -24,7 +22,7 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
 
-        <Route path="/lobby/:userid" element={<GameGuard />}>
+        <Route path="/lobby/:userid" element={<TableGuard />}>
           <Route path="/lobby/:userid" element={<GameRouter base="/lobby"/>} />
         </Route>
 
@@ -32,15 +30,11 @@ const AppRouter = () => {
           <Route path="/login" element={<Login/>} />
         </Route>
 
-        <Route path="/register" element={<LoginGuard />}>
-          <Route path="/register" element={<Register/>} />
-        </Route>
-
         <Route path="/home/:userid" element={<GameGuard />}>
           <Route path="/home/:userid" element={<Home/>} />
         </Route>
 
-        <Route path="/table/:userid" element={<GameGuard />}>
+        <Route path="/table/:userid" element={<TableGuard />}>
           <Route path="/table/:userid" element={<Table/>} />
         </Route>
 

@@ -43,20 +43,6 @@ const Userdisplay = () => {
   const token = localStorage.getItem("token");
 
 
-  const editUser = async () => {
-    try {
-      const requestBody = JSON.stringify({username});
-      const response = await api.put(`/users/${userid}`, requestBody);
-      
-      //reload the page
-      window.location.reload();
-      
-    } catch (error) {
-      alert(
-        `Something went wrong during the username edit: \n${handleError(error)}`
-      );
-    }
-  };
 
   const logout = async () => {
     try {
@@ -70,6 +56,7 @@ const Userdisplay = () => {
     }
     localStorage.clear();
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/login");
   };
 
@@ -143,22 +130,7 @@ const Userdisplay = () => {
           <h1>Profile</h1>
           <div className="user item">
             <div className="label">Username: </div>
-            <div className="data">
-              {editingUsername ? (
-                <input className="input" width="50%" type="text" placeholder="Set new name"
-                  value={username}
-                  onChange={(e) => setNewUsername(e.target.value)}
-                />
-              ) : (
-                <div className="value">{user.username}</div>
-              )}
-              
-              {(
-                <Button className="edit" onClick={editingUsername ? editUser : handleEditClick}>
-                  {editingUsername ? "Save" : "Edit"}
-                </Button>
-              )}
-            </div>
+            <div className="value">{user.username}</div>
           </div>
           <div className="user item">
             <div className="label">Credits</div> 
@@ -166,7 +138,9 @@ const Userdisplay = () => {
           </div>
           <div className="user item">
             <div className="label">Reloads</div> 
-            <div className="value">0</div>
+            <div className="value">
+              {user.tries}
+            </div>
           </div>
           <Button className="button" width="35%"  onClick={() => logout()}>Quit</Button>
         </div>
