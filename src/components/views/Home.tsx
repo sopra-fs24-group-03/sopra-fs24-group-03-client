@@ -42,8 +42,6 @@ const Userdisplay = () => {
   const [editingUsername, setEditingUsername] = useState(false);
   const token = localStorage.getItem("token");
 
-
-
   const logout = async () => {
     try {
       //const requestBody = JSON.stringify({username, birthDate});
@@ -162,7 +160,6 @@ const Userdisplay = () => {
       </div>
     );
   }
-
   
   return (
     <BaseContainer>
