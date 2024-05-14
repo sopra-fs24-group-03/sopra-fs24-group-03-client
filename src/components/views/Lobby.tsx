@@ -91,7 +91,7 @@ const Lobby = () => {
     const pollingCallback = () => {
       async function fetchData() {
         try {
-          const response = await api.get(`/lobbies/${localStorage.getItem("lobbyId")}`);
+          const response = await api.get("/lobbies");
           console.log(response);
 
           if (response.data.game !== null && response.data.game.gameFinished === false) {

@@ -1,4 +1,121 @@
 {
+    "id": 3,
+    "currentBet": 50,
+    "players": [
+        {
+            "id": 13,
+            "money": 2253,
+            "username": "p1§",
+            "folded": false,
+            "turn": true,
+            "lastRaiseAmount": 50,
+            "allIn": false
+        },
+        {
+            "id": 14,
+            "money": 1647,
+            "username": "fgf",
+            "folded": true,
+            "turn": false,
+            "lastRaiseAmount": 50,
+            "allIn": false
+        }
+    ],
+    "ownPlayer": {
+        "id": 13,
+        "username": "p1§",
+        "money": 2253,
+        "profit": 50,
+        "cardsImage": [
+            "https://deckofcardsapi.com/static/img/JS.png",
+            "https://deckofcardsapi.com/static/img/3H.png"
+        ],
+        "folded": false,
+        "turn": true,
+        "lastRaiseAmount": 50,
+        "allIn": false
+    },
+    "gameTable": {
+        "pots": [
+            {
+                "id": 17,
+                "money": 100,
+                "name": "mainPot",
+                "eligiblePlayers": [
+                    {
+                        "id": 13,
+                        "money": 2253,
+                        "username": "p1§",
+                        "folded": false,
+                        "turn": false,
+                        "lastRaiseAmount": 50,
+                        "allIn": false
+                    },
+                    {
+                        "id": 14,
+                        "money": 1647,
+                        "username": "fgf",
+                        "folded": true,
+                        "turn": false,
+                        "lastRaiseAmount": 50,
+                        "allIn": false
+                    }
+                ]
+            }
+        ],
+        "id": 16,
+        "openCardsImage": [
+            "https://deckofcardsapi.com/static/img/5S.png",
+            "https://deckofcardsapi.com/static/img/KH.png",
+            "https://deckofcardsapi.com/static/img/4C.png",
+            "https://deckofcardsapi.com/static/img/0H.png",
+            "https://deckofcardsapi.com/static/img/9S.png"
+        ],
+        "playerIdOfLastMove": 14,
+        "lastMove": "Fold",
+        "lastMoveAmount": 0
+    },
+    "gameFinished": true,
+    "handName": "HIGH_CARD",
+    "winner": [
+        {
+            "id": 13,
+            "username": "p1§",
+            "money": 2253,
+            "profit": 50,
+            "cardsImage": [],
+            "folded": false,
+            "turn": false,
+            "lastRaiseAmount": 50,
+            "allIn": false
+        }
+    ],
+    "notFoldedPlayers": [
+        {
+            "id": 14,
+            "username": "fgf",
+            "money": 1647,
+            "profit": -50,
+            "cardsImage": [],
+            "folded": true,
+            "turn": false,
+            "lastRaiseAmount": 50,
+            "allIn": false
+        },
+        {
+            "id": 13,
+            "username": "p1§",
+            "money": 2253,
+            "profit": 50,
+            "cardsImage": [],
+            "folded": false,
+            "turn": false,
+            "lastRaiseAmount": 50,
+            "allIn": false
+        }
+    ]
+}
+{
     "id": 4,
     "currentBet": 0,
     "players": [

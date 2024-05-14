@@ -80,6 +80,11 @@
   justify-content: flex-start; // Changed to flex-start to keep items at the top
   align-items: center;
 
+  &.hand{
+    margin-top: 1%;
+    color: white;
+  }
+
   &.cards-container {
     flex-direction: row;
     justify-content: center;
@@ -113,7 +118,7 @@
   align-items: center;  
 
   &.win{
-    margin-bottom: 32%;
+    margin-bottom: 18%;
   }
 
   &.money{
@@ -159,7 +164,7 @@
     border-radius: 5px;
     border: none;
     font-weight: 750;
-    width: 35%; /* Adjust width */
+    width: 4em; /* Adjust width */
     height: 20%; /* Adjust height */
     padding: 5px; /* Add padding to increase button size */
   }
