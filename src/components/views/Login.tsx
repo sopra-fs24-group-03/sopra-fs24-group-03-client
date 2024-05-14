@@ -55,7 +55,7 @@ const Login = () => {
       localStorage.setItem("userId", user.id); //store the user id in the local storage (needed for the GameRouter
 
       // Login successfully worked --> navigate to the route /home in the GameRouter
-      navigate(`/home/${user.id}`);
+      checkLobby(user.id);
 
     } catch (error) {
       alert(
@@ -85,6 +85,18 @@ const Login = () => {
       );
     }
   };
+  const checkLobby = async ( userId) => {
+    try {
+      const response = await api.get("/lobbies");
+      localStorage.setItem("lobbyId", response.data.id);
+      //alert("existing lobby found")
+      navigate(`/lobby/${userId}`);
+
+    } catch (error) {
+      //alert("no lobby found")
+      navigate(`/home/${userId}`);
+    }
+  }
 
   return (
     <BaseContainer>

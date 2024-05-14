@@ -27,13 +27,13 @@ const Table = () => {
 
 
   const [showConfetti, setShowConfetti] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(1000); // Default countdown time
+  const [timeLeft, setTimeLeft] = useState(30); // Default countdown time
   const timerRef = useRef(null);
 
   const navigate = useNavigate();
   const { userid } = useParams();
 
-  const gameTime = 10000; // 5 seconds
+  const gameTime = 15000; // 5 seconds
 
   useEffect(() => {
     if(game && game.gameFinished){
@@ -122,7 +122,7 @@ const Table = () => {
 
   const startCountdown = () => {
     if (timerRef.current) clearInterval(timerRef.current); // Clear existing timer if any
-    setTimeLeft(1000); // Reset countdown to 15 seconds
+    setTimeLeft(30); // Reset countdown to 15 seconds
     timerRef.current = setInterval(() => {
       setTimeLeft(prevTime => {
         if (prevTime === 1) { // If countdown reaches 1, execute fold and stop the timer
@@ -221,10 +221,10 @@ const Table = () => {
     let color;
 
     if(player.profit > 0){
-      profitText = `Profit: ${formatMoney(player.profit)}`;
+      profitText = `Profit: ${formatMoney(player.profit)}$`;
       color = "yellow";
     } else if(player.profit < 0){
-      profitText = `Loss: ${formatMoney(player.profit)}`;
+      profitText = `Loss: ${formatMoney(player.profit)}$`;
       color = "red";
     } else {
       profitText = "Break even";
@@ -232,6 +232,12 @@ const Table = () => {
     }
 
     return <h1 style={{color: color}}>{profitText}</h1>;
+  }
+
+  function formatHandName(handName) {
+    //replace underscores with spaces
+
+    return handName.replace(/_/g, " ");
   }
 
   if (!table || !players || !player) {
@@ -247,7 +253,7 @@ const Table = () => {
             {game.winner[0].id === player.id && showConfetti && <Confetti />}
             <div className="table">
               <div className="table pot">
-                <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
+                <h1>Pot: {table.money || 0}$</h1> {/* table.pot */}
               </div>
               <div className="table cards-container">
                 {table?.openCardsImage?.length > 0 ? (
@@ -255,6 +261,9 @@ const Table = () => {
                     <img key={index} className="table card" src={card} alt={`Card ${index}`} />
                   ))
                 ) : <p>No cards on table</p>}
+              </div>
+              <div className="table hand">
+                {game.handName && <h3>Winning Hand: {formatHandName(game.handName)}</h3>}
               </div>
             </div>
             <div className="player-wrapper">
@@ -279,7 +288,7 @@ const Table = () => {
                   <div className={enemy.id === game.winner[0].id ? "highlight-turn" : "enemy info"}>
                     {enemy.id === game.winner[0].id && <h1>WINNER</h1>}
                     <div className="enemy username">{enemy.username}</div>
-                    <div className="enemy money">{formatMoney(enemy.money)}</div>
+                    <div className="enemy money">{formatMoney(enemy.money)}$</div>
                     {enemy.fold && <div className="enemy fold-status">Fold</div>}
                   </div>
                   <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
@@ -303,7 +312,7 @@ const Table = () => {
           <div className="table-wrapper">
             <div className="table">
               <div className="table pot">
-                <h1>Pot: {table.money || 0}</h1> {/* table.pot */}
+                <h1>Pot: {table.money || 0}$</h1> {/* table.pot */}
               </div>
               <div className="table cards-container">
                 {table?.openCardsImage?.length > 0 ? (
@@ -336,7 +345,7 @@ const Table = () => {
                 <div className={enemyPosition(enemy)} key={enemy.id}>
                   <div className={"enemy info"}>
                     <div className="enemy username">{enemy.username}</div>
-                    <div className="enemy money">{formatMoney(enemy.money)}</div>
+                    <div className="enemy money">{formatMoney(enemy.money)}$</div>
                     {enemy.fold && <div className="enemy fold-status">Fold</div>}
                   </div>
                   <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
@@ -362,11 +371,11 @@ const Table = () => {
           <div className="table">
             <div className="table-pots">
               <div className="main-pot">
-                <h1>Main Pot: {mainPot?.money || 0}</h1>
+                <h1>Main Pot: {mainPot?.money || 0}$</h1>
               </div>
               {pots.filter(pot => pot.name !== "mainPot").map((pot, index) => (
                 <div className={`side-pot p${(index % 2) + 1}`} key={pot.id}>
-                  <h1>SP {index + 1}: {pot.money}</h1>
+                  <h1>SP {index + 1}: {pot.money}$</h1>
                 </div>
               ))}
               {pots.filter(pot => pot.name !== "mainPot").length % 2 !== 0 && <div className="invisible-pot"></div>}
@@ -389,7 +398,7 @@ const Table = () => {
                 }
               </div>
               <div className={player.turn ? "highlight-turn" :"table-player money"}>
-                <h1>{formatMoney(player.money)}</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
+                <h1>{formatMoney(player.money)}$</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
               </div>
 
               <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
@@ -414,13 +423,13 @@ const Table = () => {
                 ) : (
                   <>
                     <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
-                    {/* {table.lastMoveAmount !== 0 || table.money === 75 ?
+                    {game.currentBet > player.lastRaiseAmount ?
                       <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button> :
                       <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
                        
-                    } */}
-                    <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
-                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
+                    } 
+                    {/* <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
+                    <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> */}
                     <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
                   </>
                 )}
@@ -437,7 +446,7 @@ const Table = () => {
               <div className={enemyPosition(enemy)} key={enemy.id}>
                 <div className={enemy.turn ? "highlight-turn" : "enemy info"}>
                   <div className="enemy username">{enemy.username}</div>
-                  <div className="enemy money">{formatMoney(enemy.money)} $</div>
+                  <div className="enemy money">{formatMoney(enemy.money)}$</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}
                 </div>
                 <div className="enemy overlay">

@@ -86,7 +86,23 @@ const Userdisplay = () => {
     }
 
   }
+  const checkLobby = async ( userId) => {
+    try {
+      const response = await api.get("/lobbies");
+      localStorage.setItem("lobbyId", response.data.id);
+      //alert("existing lobby found")
+      navigate(`/lobby/${userId}`);
+
+    } catch (error) {
+      //alert("no lobby found")
+      
+    }
+  }
+
   useEffect(() => {
+
+    checkLobby(userid);
+
     async function fetchData() {
       //alert(permit)
       try{
