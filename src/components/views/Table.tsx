@@ -27,7 +27,7 @@ const Table = () => {
 
 
   const [showConfetti, setShowConfetti] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(30); // Default countdown time
+  const [timeLeft, setTimeLeft] = useState(60); // Default countdown time
   const timerRef = useRef(null);
 
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const Table = () => {
 
   const startCountdown = () => {
     if (timerRef.current) clearInterval(timerRef.current); // Clear existing timer if any
-    setTimeLeft(30); // Reset countdown to 15 seconds
+    setTimeLeft(60); // Reset countdown to 15 seconds
     timerRef.current = setInterval(() => {
       setTimeLeft(prevTime => {
         if (prevTime === 1) { // If countdown reaches 1, execute fold and stop the timer
@@ -234,11 +234,11 @@ const Table = () => {
     return <h1 style={{color: color}}>{profitText}</h1>;
   }
 
-  function formatHandName(handName) {
+  /* function formatHandName(handName) {
     //replace underscores with spaces
 
     return handName.replace(/_/g, " ");
-  }
+  } */
 
   if (!table || !players || !player) {
     return <div>Loading...</div>; // Display loading state or spinner here
@@ -262,9 +262,9 @@ const Table = () => {
                   ))
                 ) : <p>No cards on table</p>}
               </div>
-              <div className="table hand">
+              {/* <div className="table hand">
                 {game.handName && <h3>Winning Hand: {formatHandName(game.handName)}</h3>}
-              </div>
+              </div> */}
             </div>
             <div className="player-wrapper">
               <div className="table-player win">
