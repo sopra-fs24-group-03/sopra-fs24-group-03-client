@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { api, handleError } from "helpers/api";
 import { Spinner } from "components/ui/Spinner";
 import { Button } from "components/ui/Button";
@@ -7,8 +7,107 @@ import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Home.scss";
 import { User } from "types";
 import PropTypes from "prop-types";
-import ReactMarkdown from "react-markdown";
 import "styles/views/RulesOverlay.scss"; // Import the new stylesheet
+
+const htmlContent = `
+<h1>Poker Game Rules</h1>
+<h2>Basics</h2>
+<ul>
+  <li>This poker game follows the rules of a classical "Texas Holdem" poker game.</li>
+</ul>
+<h3>Short explanation of the rules of Texas Holdem poker:</h3>
+<h4>Overview</h4>
+<ul>
+  <li>In a game of Texas hold'em, each player is dealt two cards face down (the 'hole cards')</li>
+  <li>Over several betting rounds, five more cards are (eventually) dealt face up in the middle of the table
+    <ul>
+      <li>These face-up cards are called the 'community cards.'</li>
+    </ul>
+  </li>
+  <li>The goal of a Texas hold'em game is to use your hole cards in combination with the community cards to make the best possible five-card poker hand.</li>
+</ul>
+<h4>Game Structure</h4>
+<ul>
+  <li>The game starts by two players having to bet a mandatory "small blind" and "big blind". This small blind and big blind rotates around all players.
+    <ul>
+      <li>Without these blinds, the game would be very boring because no one would be required to put any money into the pot and players could just wait around until they are dealt good cards.</li>
+    </ul>
+  </li>
+  <li>From there, multiple betting rounds start. After each betting round new Community cards are revealed on the table:
+    <ul>
+      <li>Preflop (before any community cards have been dealt),</li>
+      <li>Flop (three community cards have been dealt)</li>
+      <li>Turn (four community cards have been dealt)</li>
+      <li>River (Five community cards have been dealt)</li>
+    </ul>
+  </li>
+  <li>The first round of betting takes place right after each player has been dealt two hole cards.
+    <ul>
+      <li>The first player to act is the player to the left of the big blind.</li>
+    </ul>
+  </li>
+  <li>During a betting round each player has his turn in order. A player can (depending on what happened before him):
+    <ul>
+      <li>Fold: Put his cards away and sit out the rest of the poker round. All the money he has bet up until now is lost for him.</li>
+      <li>Raise: Put more money in the pot.</li>
+      <li>Call: Call the amount of the previous raise. Which means putting the amount in the pot which the previous player raised.</li>
+      <li>Check: If no one has raised in the current betting round one can check which means neither raise, call, or fold but just skip the turn.</li>
+    </ul>
+  </li>
+  <li>A betting round ends if everyone either folded or called the raise of a person. Or after the pre-flop round also everyone can check.</li>
+  <li>After the betting round new community cards get shown OR the game ends</li>
+  <li>At the end of the game the player with the best hand is selected and he gets all the money in the pot.</li>
+</ul>
+<h4>The Hand Rankings in Texas Hold'em Poker (Top = best, bottom = worst)</h4>
+<ul>
+  <li>Royal Flush — five cards of the same suit, ranked ace through ten</li>
+  <li>Straight Flush — five cards of the same suit and consecutively ranked</li>
+  <li>Four of a Kind — four cards of the same rank</li>
+  <li>Full House — three cards of the same rank and two more cards of the same rank</li>
+  <li>Flush — any five cards of the same suit</li>
+  <li>Straight — any five cards consecutively ranked</li>
+  <li>Three of a Kind — three cards of the same rank</li>
+  <li>Two Pair — two cards of the same rank and two more cards of the same rank</li>
+  <li>One Pair — two cards of the same rank</li>
+  <li>High Card — The one with the highest rank</li>
+</ul>
+<h4>For further information on Texas holdem poker just look up the rules on the internet since there are many great explanations there.</h4>
+<h2>What is special about our version of the game</h2>
+<h4>No real Money involved</h4>
+<ul>
+  <li>Our version of the game is completely free of charge and you can play with your friends for fun or practice for a poker night with real money.</li>
+  <li>Upon creation of an account you get 2000 Credits. If you lose all of these you get a free refill back to 2000, but this is also shown in your profile for everyone else to see.</li>
+</ul>
+<h4>Blinds</h4>
+<ul>
+  <li>In the beginning, the Small Blind (25) and the Big blind (50) are automatically dealt by two people. The small and big blind rotate like in the normal Poker.
+    <ul>
+      <li>The first player who can make a move is the player after the big blind</li>
+    </ul>
+  </li>
+</ul>
+<h4>Raising</h4>
+<ul>
+  <li>Calling, Folding and Checking works like in the normal Poker. However Raising works a little different:
+    <ul>
+      <li>When someone Raises to 50 in the beginning of the round, lets say the big-blind, in normal poker you will say raise 50 again and then put 100 chips in the Pot. So you say the amount you want to add on top of the previous raise.</li>
+      <li>In our version of the game however you say to which amount you want to raise (Notice "raise to" when raising). This means, when someone Raises to 50 in the beginning of the round, lets say the big-blind, you have to say raise to 100 to set the raise to 100 and put 100 chips into the pot.</li>
+    </ul>
+  </li>
+</ul>
+<h4>All in</h4>
+<ul>
+  <li>You can go all in by either Raising to all the money you have left, or by calling if you don't have enough money to call the previous raise.</li>
+  <li>A side pot will automatically be created at the end of a betting round and then the money will be accordingly distributed to the players who are eligible.</li>
+</ul>
+<h4>End of the game</h4>
+<ul>
+  <li>At the end of the game only one winner will be displayed.</li>
+  <li>If there are multiple side pots and different people win in different pots, only the winner who had the best hand overall will be displayed. This does not mean however that this person has won the most money.</li>
+  <li>The money is distributed correctly independently of who is shown as the winner.</li>
+  <li>At the end of a poker round everyone is sent back to the lobby and the lobby leader can start another round.</li>
+</ul>
+`;
 
 const FormField = (props) => {
   return (
@@ -38,8 +137,8 @@ const Userdisplay = () => {
   const [username, setNewUsername] = useState<string>(null);
   const [editingUsername, setEditingUsername] = useState(false);
   const token = localStorage.getItem("token");
-  const [markdownContent, setMarkdownContent] = useState("");
   const [showRules, setShowRules] = useState(false); // State to manage the visibility of the rules
+  const rulesRef = useRef(null);
 
   const logout = async () => {
     try {
@@ -110,9 +209,7 @@ const Userdisplay = () => {
     fetchData();
 
     // Fetch the markdown content
-    fetch("/rules.md")
-      .then((response) => response.text())
-      .then((text) => setMarkdownContent(text));
+    
 
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -120,11 +217,19 @@ const Userdisplay = () => {
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    const handleClickOutside = (event) => {
+      if (rulesRef.current && !rulesRef.current.contains(event.target)) {
+        setShowRules(false);
+      }
+    };
 
-    // Cleanup event listener on unmount
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listeners on unmount
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [userid]);
 
@@ -189,8 +294,8 @@ const Userdisplay = () => {
       </button>
       {showRules && (
         <div className="rules-overlay">
-          <div className="rules-content">
-            <ReactMarkdown>{markdownContent}</ReactMarkdown>
+          <div className="rules-content" ref={rulesRef}>
+            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
             <Button className="close-button" onClick={() => setShowRules(false)}>
               Close
             </Button>
