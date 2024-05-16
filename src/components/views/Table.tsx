@@ -29,6 +29,8 @@ const Table = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const [timeLeft, setTimeLeft] = useState(60); // Default countdown time
   const timerRef = useRef(null);
+  const [buttonCooldown, setButtonCooldown] = useState(false); // Cooldown state
+
 
   const navigate = useNavigate();
   const { userid } = useParams();
@@ -137,7 +139,17 @@ const Table = () => {
     }, 1000);
   };
 
+  const startCooldown = () => {
+    setButtonCooldown(true);
+    setTimeout(() => {
+      setButtonCooldown(false);
+    }, 2000); // Cooldown period (1 second in this case)
+  };
+  
+
   const call = async () => {
+    if (buttonCooldown) return; // Prevent action if cooldown is active
+    startCooldown();
     try {
       const requestBody = JSON.stringify({ move: "Call", ammount: 0 });
       const response = await api.put(`/games/${gameId}`, requestBody);
@@ -148,6 +160,8 @@ const Table = () => {
   }
 
   const check = async () => { //amount needed or automatic check?
+    if (buttonCooldown) return; // Prevent action if cooldown is active
+    startCooldown();
     try {
       const requestBody = JSON.stringify({ move: "Check", ammount: 0 });
       const response = await api.put(`/games/${gameId}`, requestBody);
@@ -158,6 +172,8 @@ const Table = () => {
   }
 
   const raise = async () => {
+    if (buttonCooldown) return; // Prevent action if cooldown is active
+    startCooldown();
     if (!raiseAmount) {
       alert("Please enter an amount to raise.");
       toggleRaiseInput();
@@ -180,6 +196,8 @@ const Table = () => {
   };
   
   const fold = async () => {
+    if (buttonCooldown) return; // Prevent action if cooldown is active
+    startCooldown();
     try {
       const requestBody = JSON.stringify({ move: "Fold", ammount: 0 });
       const response = await api.put(`/games/${gameId}`, requestBody);
@@ -422,15 +440,15 @@ const Table = () => {
                   </div>
                 ) : (
                   <>
-                    <button className ="actions-button" onClick={fold} disabled={!player.turn}>Fold</button>
+                    <button className ="actions-button" onClick={fold} disabled={!player.turn || buttonCooldown}>Fold</button>
                     {game.currentBet > player.lastRaiseAmount ?
-                      <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button> :
-                      <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button>
+                      <button className ="actions-button" onClick={call} disabled={!player.turn || buttonCooldown}>Call</button> :
+                      <button className ="actions-button" onClick={check} disabled={!player.turn || buttonCooldown}>Check</button>
                        
                     } 
                     {/* <button className ="actions-button" onClick={call} disabled={!player.turn}>Call</button>
                     <button className ="actions-button" onClick={check} disabled={!player.turn}>Check</button> */}
-                    <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn}>Raise</button>
+                    <button className ="actions-button" onClick={toggleRaiseInput} disabled={!player.turn || buttonCooldown}>Raise</button>
                   </>
                 )}
               </div>
