@@ -9,6 +9,8 @@ import AppRouter from "./components/routing/routers/AppRouter";
  * Updated by Marco Leder
  */
 const App = () => {
+  //clear local storage on first load
+
   return (
     <div>
       <AppRouter />

@@ -174,7 +174,7 @@ const Lobby = () => {
         </ul>
         <div className="game button-container">
           <Button className="button" width="50%" onClick={() => leaveLobby()}>Leave Table</Button>
-          <Button disabled={userid !== owner.id.toString() || Disabled} className="button" width="50%"
+          <Button disabled={users.length < 2 || userid !== owner.id.toString()} className="button" width="50%"
             onClick={() => startGame()}>Start Game</Button> {/* disable button */}
         </div>
       </div>
