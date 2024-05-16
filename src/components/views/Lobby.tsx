@@ -104,10 +104,10 @@ const Lobby = () => {
           setOwner(response.data.lobbyLeader); // need to be changed to response.owner
 
           // See here to get more data.
-          console.log(response);
+
         } catch (error) {
-          if (error.response && error.response.status === 401) {
-            // 401 corresponds to HttpStatus.UNAUTHORIZED
+          if (error.response && error.response.status === 404) {
+            // 404 corresponds to HttpStatus.NOT_FOUND
             localStorage.removeItem("lobbyId");
             navigate(`/home/${userid}`);
             alert("you have been kicked out of the lobby")
