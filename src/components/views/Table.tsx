@@ -24,6 +24,8 @@ const Table = () => {
   const [game, setGame] = useState<Game | null>(null);  // Initially null
   const [pots, setPots] = useState<Pot[]>([]);  // Initially null
   const [mainPot, setMainPot] = useState<Pot | null>(null);  // Initially null
+  const [winners, setWinners] = useState([]);
+
 
 
   const [showConfetti, setShowConfetti] = useState(true);
@@ -35,7 +37,7 @@ const Table = () => {
   const navigate = useNavigate();
   const { userid } = useParams();
 
-  const gameTime = 15000; // 5 seconds
+  const gameTime = 25000; // 5 seconds
 
   useEffect(() => {
     if(game && game.gameFinished){
@@ -58,6 +60,9 @@ const Table = () => {
           setGame(tableResp.data)
           setPots(tableResp.data.gameTable.pots)
 
+          setWinners(tableResp.data.winner);
+
+
           // Find and set the mainPot
           for(let i = 0; i < tableResp.data.gameTable.pots.length; i++) {
             if(tableResp.data.gameTable.pots[i].name === "mainPot") {
@@ -67,7 +72,12 @@ const Table = () => {
           }
           
         } catch (error) {
-          alert(`Something went wrong while fetching the user: \n${error}`);
+          if (error.response && error.response.status === 404) {
+            // Redirect to the lobby if 404 error occurs
+            navigate(`/lobby/${userid}`);
+          } else {
+            alert(`Something went wrong while fetching the user: \n${error}`);
+          }
         }
       }
       fetchTable();
@@ -180,6 +190,12 @@ const Table = () => {
       
       return;
     }
+
+    if (!/^\d+$/.test(raiseAmount)) {
+      alert("Please enter a valid integer amount.");
+      
+      return;
+    }
     try {
       //alert("Raise amount: " + raiseAmount);
       const requestBody = JSON.stringify({ move: "Raise", amount: raiseAmount });
@@ -231,7 +247,7 @@ const Table = () => {
   function stopConfetti() {
     setTimeout(() => {
       setShowConfetti(false);
-    }, gameTime);
+    }, 15000);
   }
 
   function playerProfit(player) {
@@ -252,11 +268,11 @@ const Table = () => {
     return <h1 style={{color: color}}>{profitText}</h1>;
   }
 
-  /* function formatHandName(handName) {
+  function formatHandName(handName) {
     //replace underscores with spaces
 
     return handName.replace(/_/g, " ");
-  } */
+  }
 
   if (!table || !players || !player) {
     return <div>Loading...</div>; // Display loading state or spinner here
@@ -280,9 +296,9 @@ const Table = () => {
                   ))
                 ) : <p>No cards on table</p>}
               </div>
-              {/* <div className="table hand">
+              <div className="table hand">
                 {game.handName && <h3>Winning Hand: {formatHandName(game.handName)}</h3>}
-              </div> */}
+              </div> 
             </div>
             <div className="player-wrapper">
               <div className="table-player win">
@@ -316,7 +332,10 @@ const Table = () => {
                           <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
                         ))}
                       </>
-                    ) : <p>No cards</p>}
+                    ) : 
+                      <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                        {backCards}
+                      </div>}
                   </div>
                 </div>
               ))}
@@ -361,7 +380,7 @@ const Table = () => {
               .filter((enemy: Player) => enemy.id !== player.id)
               .map((enemy, index) => (
                 <div className={enemyPosition(enemy)} key={enemy.id}>
-                  <div className={"enemy info"}>
+                  <div className={winners.some(winner => winner.id === enemy.id) ? "highlight-turn" : "enemy info"}>
                     <div className="enemy username">{enemy.username}</div>
                     <div className="enemy money">{formatMoney(enemy.money)}$</div>
                     {enemy.fold && <div className="enemy fold-status">Fold</div>}
@@ -424,13 +443,14 @@ const Table = () => {
               </div>
 
               <div className="table-player actions">
-                {showRaiseInput ? (
+                {showRaiseInput && !player.folded ? (
                   <div className="raise-wrapper">
                     <input
                       type="number"
                       style={{ width: "50%" }} // Inline style for demonstration
                       className="raiseInput"
                       value={raiseAmount}
+                      
                       onChange={(e) => setRaiseAmount(e.target.value)}
                       placeholder="Raise Pot to"
                     />
@@ -454,6 +474,10 @@ const Table = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="currentBet">
+          <h3>Current Bet: {game.currentBet}</h3>
         </div>
 
         <div className="enemy">

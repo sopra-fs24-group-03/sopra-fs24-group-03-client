@@ -86,19 +86,21 @@ const htmlContent = `
     </ul>
   </li>
 </ul>
-<h4>Raising</h4>
+<h4>Moves</h4>
 <ul>
   <li>Calling, Folding and Checking works like in the normal Poker. However Raising works a little different:
     <ul>
       <li>When someone Raises to 50 in the beginning of the round, lets say the big-blind, in normal poker you will say raise 50 again and then put 100 chips in the Pot. So you say the amount you want to add on top of the previous raise.</li>
-      <li>In our version of the game however you say to which amount you want to raise (Notice "raise to" when raising). This means, when someone Raises to 50 in the beginning of the round, lets say the big-blind, you have to say raise to 100 to set the raise to 100 and put 100 chips into the pot.</li>
+      <li>In our version of the game however you say to which amount you want to raise (Notice "raise to" when rasing). This means, when someone Raises to 50 in the beginning of the round, lets say the big-blind, you have to say raise to 100 to set the raise to 100 and put 100 chips into the pot.</li>
     </ul>
   </li>
+  <li>Also, you automatically fold when you don't make a move in 60 seconds. This is so that the game can still continue if someone decides to leave mid-poker round.</li>
 </ul>
 <h4>All in</h4>
 <ul>
   <li>You can go all in by either Raising to all the money you have left, or by calling if you don't have enough money to call the previous raise.</li>
   <li>A side pot will automatically be created at the end of a betting round and then the money will be accordingly distributed to the players who are eligible.</li>
+  <li>The sidepots and eligible players are calculated like in the normal Texas Hold em. However, instead of continuing to play with the sidepot, in this version of the game we create a sidepot, and then subtract that money from the Main pot (and remove non-eligible players from the main pot) and continue playing with the main pot.</li>
 </ul>
 <h4>End of the game</h4>
 <ul>
