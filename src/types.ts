@@ -19,7 +19,7 @@ export type TableType = {
   openCardsImage: string[];
   prevRaise: number;
   lastMoveAmount: number;
-  playerIdOfLastMove: string;
+  playerIdOfLastMove: number;
   lastMove: string;
 };
 
@@ -40,5 +40,6 @@ export type Game = {
   winner:Player[];
   notFoldedPlayers:Player[];
   currentBet:number;
+  smallBlindPlayer:Player;
 };
 

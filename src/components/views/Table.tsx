@@ -36,6 +36,29 @@ const Table = () => {
   const { userid } = useParams();
 
   const gameTime = 25000; // 5 seconds
+  const [countdown, setCountdown] = useState(gameTime / 1000); // Initialize countdown with gameTime in seconds
+
+  useEffect(() => {
+    let countdownInterval;
+  
+    if (game && game.gameFinished) {
+      countdownInterval = setInterval(() => {
+        setCountdown((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(countdownInterval);
+
+            return 0;
+          }
+          
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+  
+    return () => {
+      if (countdownInterval) clearInterval(countdownInterval);
+    };
+  }, [game]);
 
   useEffect(() => {
     if(game && game.gameFinished){
@@ -338,6 +361,9 @@ const Table = () => {
                 </div>
               ))}
           </div>
+          <div className="win-countdown">
+            <h2>Back to lobby in {countdown} seconds</h2>
+          </div>
         </div>
       );
     } else { //if there is a draw
@@ -395,6 +421,9 @@ const Table = () => {
                 </div>
               ))}
           </div>
+          <div className="win-countdown">
+            <h2>Back to lobby in {countdown} seconds</h2>
+          </div>
         </div>
       );
     }
@@ -435,7 +464,7 @@ const Table = () => {
               <div className={player.turn ? "highlight-turn" :"table-player money"}>
                 <h1>{formatMoney(player.money)}$</h1> {/* for higlihgting: style={{ color: turn ? 'yellow' : 'white' }} */}
               </div>
-
+              {player.id === game.smallBlindPlayer?.id && <div className="small-blind p">SB</div>}
               <div className="table-player hand"  style={{ visibility: player.folded ? "hidden" : "visible" }}>  {/* change fold to player.fold */}
                 {playerCards}
               </div>
@@ -485,6 +514,7 @@ const Table = () => {
               //<div className={`pos${index + 1}`} key={enemy.id}>
               <div className={enemyPosition(enemy)} key={enemy.id}>
                 <div className={enemy.turn ? "highlight-turn" : "enemy info"}>
+                  {enemy.id === game.smallBlindPlayer?.id && <div className="small-blind e">SB</div>}
                   <div className="enemy username">{enemy.username}</div>
                   <div className="enemy money">{formatMoney(enemy.money)}$</div>
                   {enemy.fold && <div className="enemy fold-status">Fold</div>}
