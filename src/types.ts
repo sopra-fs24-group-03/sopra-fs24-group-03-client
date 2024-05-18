@@ -31,6 +31,7 @@ export type Player = {
   turn: boolean;
   cardsImage:string[];
   allIn: boolean;
+  lastRaiseAmount: number;
 };
 
 export type Game = {
@@ -38,5 +39,6 @@ export type Game = {
   gameFinished:boolean;
   winner:Player[];
   notFoldedPlayers:Player[];
+  currentBet:number;
 };
 
