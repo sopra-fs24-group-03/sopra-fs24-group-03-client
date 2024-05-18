@@ -26,8 +26,6 @@ const Table = () => {
   const [mainPot, setMainPot] = useState<Pot | null>(null);  // Initially null
   const [winners, setWinners] = useState([]);
 
-
-
   const [showConfetti, setShowConfetti] = useState(true);
   const [timeLeft, setTimeLeft] = useState(60); // Default countdown time
   const timerRef = useRef(null);
