@@ -16,20 +16,19 @@ The client part has been implemented using React.js.
 
 ## High-level components:
 ### User Interface Components
-- **Login Component**: Manages the user login and authentication process. Allows users to log in with their existing account or create a new one.
-- **Home Component**: The main view of the application, displaying the user's profile and options to join a game or create a new one.
-- **Lobby Component**: Manages the display of the lobby and its players. Functions as a waiting room for players to join the game.
-- **Game Table Component**: Displays the poker table and handles user interactions during the game.
+- **[Login Component](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/blob/main/src/components/views/Login.tsx)**: Manages the user login and authentication process. Allows users to log in with their existing account or create a new one.
+- **[Home Component](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/blob/main/src/components/views/Home.tsx)**: The main view of the application, displaying the user's profile and options to join a game or create a new one.
+- **[Lobby Component](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/blob/main/src/components/views/Lobby.tsx)**: Manages the display of the lobby and its players. Functions as a waiting room for players to join the game.
+- **[Game Table Component](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/blob/main/src/components/views/Table.tsx)**: Displays the poker table and handles user interactions during the game.
 
 
 ### Styles
-- **SCSS Stylesheets**: Located in `src/styles`, the stylesheets are used to style the UI components.
-    - **Views**: Contains specific styles for individual view components such as the table, lobby or homescreen, located in `src/styles/views`.
-    - **UI**: Contains general styles for buttons and other UI elements, located in `src/styles/ui`.
+- **[SCSS Stylesheets](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/tree/main/src/styles)**: Located in `src/styles`, the stylesheets are used to style the UI components.
+    - **[Views](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/tree/main/src/styles/views)**: Contains specific styles for individual view components such as the table, lobby or homescreen, located in `src/styles/views`.
+    - **[UI](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/tree/main/src/styles/ui)**: Contains general styles for buttons and other UI elements, located in `src/styles/ui`.
 
 ### Routing
-- **React Router**: Used for declarative routing in the application. It allows navigation between different views such as the lobby, game table, and user profile.
-    - **Components**: Located in `src/components/routing`.
+- **[React Router](https://github.com/sopra-fs24-group-03/sopra-fs24-group-03-client/tree/main/src/components/routing)**: Used for declarative routing in the application. It allows navigation between different views such as the lobby, game table, and user profile. Located in `src/components/routing`.
 
 ## Launch & Deployment:
 1. **Install Dependencies**: Make sure you have Node.js and npm installed. Then, run:
@@ -62,8 +61,11 @@ The client part has been implemented using React.js.
 ### Screenshots
 #### Login
 ![Login](./screenshots/login.png)
+#### Home
 ![Homescreeen](./screenshots/Home.png)
+#### Lobby
 ![Lobby](./screenshots/Lobby.png)
+#### Game Table
 ![Game Table Start](./screenshots/Start.png)
 
 
