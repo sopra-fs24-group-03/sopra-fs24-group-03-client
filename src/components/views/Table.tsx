@@ -74,7 +74,6 @@ const Table = () => {
       async function fetchTable() {
         try {
           const tableResp = await api.get(`/games/${localStorage.getItem("lobbyId")}`);
-          console.log(tableResp)
           setPlayer(tableResp.data.ownPlayer)
           setPlayers(tableResp.data.players)
           setTable(tableResp.data.gameTable)
@@ -213,7 +212,7 @@ const Table = () => {
     }
 
     if (!/^\d+$/.test(raiseAmount)) {
-      alert("Please enter a valid integer amount.");
+      alert("Please enter a positive integer amount.");
       
       return;
     }
@@ -416,7 +415,10 @@ const Table = () => {
                           <img key={index} className="table-player card" src={card} alt={`Card ${index + 1}`} />
                         ))}
                       </>
-                    ) : <p>No cards</p>}
+                    ) : 
+                      <div className="enemy cards" style={{ visibility: enemy.folded ? "hidden" : "visible" }}>
+                        {backCards}
+                      </div>}
                   </div>
                 </div>
               ))}

@@ -201,7 +201,7 @@ const Userdisplay = () => {
           `Something went wrong while fetching user: \n${handleError(error)}`
         );
 
-        if (error.response.data.status === 401) {
+        if (error.response.status === 401) {
           localStorage.removeItem("token");
           navigate("/login");
         }
