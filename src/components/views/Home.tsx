@@ -76,7 +76,7 @@ const htmlContent = `
 <h4>No real Money involved</h4>
 <ul>
   <li>Our version of the game is completely free of charge and you can play with your friends for fun or practice for a poker night with real money.</li>
-  <li>Upon creation of an account you get 2000 Credits. If you lose all of these you get a free refill back to 2000, but this is also shown in your profile for everyone else to see.</li>
+  <li>Upon creation of an account you get 2000 Credits. If you drop below 100 Credits you get a free refill back to 2000, but this is also shown in your profile for everyone else to see.</li>
 </ul>
 <h4>Blinds</h4>
 <ul>
