@@ -93,5 +93,15 @@ The client part has been implemented using React.js.
 - Noah Ziegler - Backend - [N-oahh](https://github.com/N-oahh)
 - Colin Bächtold - Backend - [Colbae](https://github.com/Colbae)
 
+### Acknowledgements
+
+We would like to acknowledge the following for their contributions and support:
+
+- [**Spring Boot Team**](https://spring.io/team): For providing the framework to send and receive API calls and the JPA to create in-memory databases.
+- [**SoPra Team**](https://github.com/HASEL-UZH/sopra-fs24-template-server): For providing us with a template to build our server on.
+
+Special thanks to:
+- [**Chase Roberts**](https://github.com/crobertsbmw/): For creating the [Deck of Cards API](https://www.deckofcardsapi.com/) that we used to create decks and draw cards from those decks.
+
 ## License:
 This project is licensed under the GNU General Public License - see the [LICENSE](LICENSE) file for details.
