@@ -60,7 +60,7 @@ The client part has been implemented using React.js.
 
 ### Screenshots
 #### Login
-![Login](./screenshots/login.png)
+![Login](./screenshots/Login.png)
 #### Home
 ![Homescreeen](./screenshots/Home.png)
 #### Lobby
