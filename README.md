@@ -1,4 +1,4 @@
-# SoPra Group 5 Project: Poker
+# SoPra Group 3 Project: Poker
 ## Introduction
 Welcome to our project; A free, user-friendly online poker game. This game allows friends to connect, compete, and enjoy poker without the distractions and limitations of other online alternatives.
 
@@ -52,7 +52,7 @@ The client part has been implemented using React.js.
     - Use Google Cloud Run to deploy the containerized app.
 
 ## Illustrations:
-### USer Flow
+### User Flow
 1. **Login**: Users can log in with their existing account or create a new one.
 2. **Home**: The main view of the application, displaying the user's money, his reloads and options to join a game or create a new one.
 3. **Lobby**: The waiting room for players to join the game. If the user is the host, he can start the game as well as kick players.
